@@ -11,9 +11,9 @@ func InitRoutes(router *gin.Engine) {
         path    string
         handler gin.HandlerFunc
     }{
-		{"/hill-climbing/:cube", controllers.HillClimbing},
-		{"/simulated-annealing/:cube", controllers.SimulatedAnnealing},
-		{"/genetic-algorithm/:cube", controllers.GeneticAlgorithm},
+		{"/hill-climbing/", controllers.HillClimbing},
+		{"/simulated-annealing/", controllers.SimulatedAnnealing},
+		{"/genetic-algorithm/", controllers.GeneticAlgorithm},
     }
 
     for _, route := range routes {

@@ -2,22 +2,32 @@ package controllers
 
 import (
 	"be/algorithm"
+	"be/class/MagicCube"
+	"encoding/json"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
 func HillClimbing(c *gin.Context) {
-   	cube := c.Param("cube")
-    result, err := algorithm.HillClimbing(cube)
 
-    if err != nil {
-        c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-        return
-    }
+	cubeStr := c.Query("cube")
 
-    c.JSON(http.StatusOK, gin.H{
-        "input":  cube,
-        "result": result,
-    })
+	magicCube := MagicCube.New()
+	err := json.Unmarshal([]byte(cubeStr), &magicCube.Buffer)
+    
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid cube format"})
+		return
+	}
+
+	result, err := algorithm.HillClimbing(magicCube)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"result": result,
+	})
 }

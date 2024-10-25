@@ -3,23 +3,15 @@ package algorithm
 import (
 	"be/class/MagicCube"
 	"fmt"
-	"strconv"
 )
 
-func GeneticAlgorithm(cube string) (int, error) {
+func GeneticAlgorithm(cube *MagicCube.MagicCube) ([][][]int, error) {
 
     fmt.Println("\033[32mGenetic Algorithm\033[0m")
 
-    initial_cube, err := strconv.Atoi(cube)
+    // 3D Matrix nya di cube.Buffer
 
-    if err != nil {
-        return 0, fmt.Errorf("invalid input: %d is not a valid magic cube", initial_cube)
-    }
-    
-    magic_cube := MagicCube.New(initial_cube)
-    magic_cube.Print()
-
-	result_cube := initial_cube * 4
-
-    return result_cube, nil
+    cube.Shuffle()
+	
+    return cube.Buffer, nil 
 }
