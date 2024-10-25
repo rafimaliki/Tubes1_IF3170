@@ -1,13 +1,13 @@
 import React from "react";
 import { Text } from "@react-three/drei";
 
-interface CubeProps {
+interface Cube3DProps {
   position: [number, number, number];
   number: number;
   pivot: boolean;
 }
 
-const Cube: React.FC<CubeProps> = ({ position, number, pivot }) => {
+const Cube3D: React.FC<Cube3DProps> = ({ position, number, pivot }) => {
   const positions: [number, number, number][] = [
     [0, 0, 0.6], // front
     [0, 0, -0.6], // back
@@ -26,7 +26,7 @@ const Cube: React.FC<CubeProps> = ({ position, number, pivot }) => {
     [Math.PI / 2, 0, 0], // bottom
   ];
 
-  const color = pivot ? "lightcoral" : "lightpink";
+  const color = false ? "lightcoral" : "mistyrose";
 
   return (
     <mesh position={position}>
@@ -49,4 +49,4 @@ const Cube: React.FC<CubeProps> = ({ position, number, pivot }) => {
   );
 };
 
-export default Cube;
+export default Cube3D;

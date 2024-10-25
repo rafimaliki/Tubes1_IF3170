@@ -1,13 +1,16 @@
 import React from "react";
-import { Plane, OrbitControls } from "@react-three/drei";
+import { Plane, OrbitControls, Text } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import MagicCube from "./MagicCube.tsx";
+
+import MagicCube3D from "./MagicCube3D.tsx";
+import MagicCube from "../../class/MagicCube.ts";
 
 interface SceneProps {
   separate: { x: boolean; y: boolean; z: boolean };
+  magicCube: MagicCube;
 }
 
-const Scene: React.FC<SceneProps> = ({ separate }) => {
+const Scene: React.FC<SceneProps> = ({ separate, magicCube }) => {
   return (
     <Canvas
       className="w-full h-full"
@@ -18,13 +21,22 @@ const Scene: React.FC<SceneProps> = ({ separate }) => {
       <directionalLight position={[10, 10, 10]} intensity={1} />
       <group>
         <Plane
-          args={[20, 20, 20, 20]} // width, height, widthSegments, heightSegments
+          args={[20, 20, 20, 20]}
           rotation={[-Math.PI / 2, 0, 0]}
           position={[0, -5, 0]}
         >
-          <meshStandardMaterial color="#808080" wireframe />
+          <meshStandardMaterial color="#E4E5E4" wireframe />
         </Plane>
-        <MagicCube separate={separate} />
+        {/* <Text
+          position={[0, -4.8, 0]}
+          fontSize={2.5}
+          color="black"
+          textAlign="center"
+          rotation={[Math.PI / 2, 0, -Math.PI / 2]}
+        >
+          →
+        </Text> */}
+        <MagicCube3D separate={separate} magicCube={magicCube} />
       </group>
     </Canvas>
   );
