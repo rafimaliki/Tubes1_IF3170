@@ -62,6 +62,22 @@ func (mc *MagicCube) Shuffle() {
 	}
 }
 
+func (mc *MagicCube) Copy() *MagicCube {
+	newBuffer := make([][][]int, mc.Size)
+	for i := range mc.Buffer {
+		newBuffer[i] = make([][]int, mc.Size)
+		for j := range mc.Buffer[i] {
+			newBuffer[i][j] = make([]int, mc.Size)
+			copy(newBuffer[i][j], mc.Buffer[i][j])
+		}
+	}
+
+	return &MagicCube{
+		Size:   mc.Size,
+		Buffer: newBuffer,
+	}
+}
+
 func absoluteVal(n int) int {
 	if n < 0 {
 		return -n
@@ -162,4 +178,17 @@ func (mc *MagicCube) objectiveFunction() int {
 	score += absoluteVal(antiDiag3_3D - magicNumber)
 
 	return -score
+}
+
+func (mc *MagicCube) getRandomIdx() [3]int {
+	x := rand.Intn(mc.Size)
+	y := rand.Intn(mc.Size)
+	z := rand.Intn(mc.Size)
+	return [3]int{x, y, z}
+}
+
+func (mc *MagicCube) swapValues(idx1 [3]int, idx2 [3]int) {
+	temp := mc.Buffer[idx1[0]][idx1[1]][idx1[2]]
+	mc.Buffer[idx1[0]][idx1[1]][idx1[2]] = mc.Buffer[idx2[0]][idx2[1]][idx2[2]]
+	mc.Buffer[idx2[0]][idx2[1]][idx2[2]] = temp
 }
