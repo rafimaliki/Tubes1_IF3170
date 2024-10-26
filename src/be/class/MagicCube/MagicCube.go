@@ -78,12 +78,20 @@ func (mc *MagicCube) Copy() *MagicCube {
 	}
 }
 
-func absoluteVal(n int) int {
+func AbsoluteVal(n int) int {
 	if n < 0 {
 		return -n
 	} else {
 		return n
 	}
+}
+
+func IntToThreeDee(n int) [3]int {
+	var x int = n / 25
+	var y int = (n % 25) / 5
+	var z int = n % 5
+	res := [3]int{x, y, z}
+	return res
 }
 
 func (mc *MagicCube) objectiveFunction() int {
