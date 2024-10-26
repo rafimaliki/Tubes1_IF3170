@@ -17,8 +17,9 @@ const Scene: React.FC<SceneProps> = ({ separate, magicCube }) => {
       camera={{ position: [0, 6, 10], fov: 75 }}
     >
       <OrbitControls enablePan={true} enableZoom={true} enableRotate={true} />
-      <ambientLight intensity={0.8} />
-      <directionalLight position={[10, 10, 10]} intensity={1} />
+      <ambientLight intensity={0.5} />
+      <directionalLight position={[5, 10, 5]} intensity={1.2} />
+
       <group>
         <Plane
           args={[20, 20, 20, 20]}

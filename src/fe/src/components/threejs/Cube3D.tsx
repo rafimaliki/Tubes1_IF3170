@@ -9,21 +9,21 @@ interface Cube3DProps {
 
 const Cube3D: React.FC<Cube3DProps> = ({ position, number, pivot }) => {
   const positions: [number, number, number][] = [
-    [0, 0, 0.6], // front
-    [0, 0, -0.6], // back
-    [0.6, 0, 0], // right
-    [-0.6, 0, 0], // left
-    [0, 0.6, 0], // top
-    [0, -0.6, 0], // bottom
+    [0, 0, 0.51],
+    [0, 0, -0.51],
+    [0.52, 0, 0],
+    [-0.52, 0, 0],
+    [0, 0.52, 0],
+    [0, -0.52, 0],
   ];
 
   const rotations: [number, number, number][] = [
-    [0, 0, 0], // front
-    [0, Math.PI, 0], // back
-    [0, Math.PI / 2, 0], // right
-    [0, -Math.PI / 2, 0], // left
-    [-Math.PI / 2, 0, 0], // top
-    [Math.PI / 2, 0, 0], // bottom
+    [0, 0, 0],
+    [0, Math.PI, 0],
+    [0, Math.PI / 2, 0],
+    [0, -Math.PI / 2, 0],
+    [-Math.PI / 2, 0, 0],
+    [Math.PI / 2, 0, 0],
   ];
 
   const color = false ? "lightcoral" : "mistyrose";
@@ -38,7 +38,7 @@ const Cube3D: React.FC<Cube3DProps> = ({ position, number, pivot }) => {
           key={index}
           position={pos}
           rotation={rotations[index] as [number, number, number]}
-          fontSize={0.2}
+          fontSize={0.4}
           color="black"
           textAlign="center"
         >
