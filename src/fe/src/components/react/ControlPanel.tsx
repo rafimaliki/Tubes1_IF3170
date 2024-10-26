@@ -64,8 +64,17 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
       >
         Randomize
       </button>
-      <button onClick={() => solveCube("hill-climbing")} className={btn_style}>
-        Hill-Climbing
+      <button onClick={() => solveCube("steepest-ascent-hill-climbing")} className={btn_style}>
+        Steepest Ascent Hill-Climbing
+      </button>
+      <button onClick={() => solveCube("sideways-move-hill-climbing")} className={btn_style}>
+        Sideways Move Hill-Climbing
+      </button>
+      <button onClick={() => solveCube("random-restart-hill-climbing")} className={btn_style}>
+        Random Restart Hill-Climbing
+      </button>
+      <button onClick={() => solveCube("stochastic-hill-climbing")} className={btn_style}>
+        Stochastic Hill-Climbing
       </button>
       <button
         onClick={() => solveCube("simulated-annealing")}
