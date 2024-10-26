@@ -94,7 +94,7 @@ func IntToThreeDee(n int) [3]int {
 	return res
 }
 
-func (mc *MagicCube) objectiveFunction() int {
+func (mc *MagicCube) ObjectiveFunction() int {
 	dimension := mc.Size
 	score := 0
 	magicNumber := dimension * (dimension*dimension*dimension + 1) / 2
