@@ -78,7 +78,7 @@ func (mc *MagicCube) Copy() *MagicCube {
 	}
 }
 
-func absoluteVal(n int) int {
+func AbsoluteVal(n int) int {
 	if n < 0 {
 		return -n
 	} else {
@@ -86,7 +86,7 @@ func absoluteVal(n int) int {
 	}
 }
 
-func (mc *MagicCube) objectiveFunction() int {
+func (mc *MagicCube) ObjectiveFunction() int {
 	dimension := mc.Size
 	score := 0
 	magicNumber := dimension * (dimension*dimension*dimension + 1) / 2
@@ -97,7 +97,7 @@ func (mc *MagicCube) objectiveFunction() int {
 			for x := 0; x < dimension; x++ {
 				rowSum += mc.Buffer[x][y][z]
 			}
-			score += absoluteVal(rowSum - magicNumber)
+			score += AbsoluteVal(rowSum - magicNumber)
 		}
 	}
 
@@ -107,7 +107,7 @@ func (mc *MagicCube) objectiveFunction() int {
 			for z := 0; z < dimension; z++ {
 				columnSum += mc.Buffer[x][y][z]
 			}
-			score += absoluteVal(columnSum - magicNumber)
+			score += AbsoluteVal(columnSum - magicNumber)
 		}
 	}
 
@@ -117,7 +117,7 @@ func (mc *MagicCube) objectiveFunction() int {
 			for y := 0; y < dimension; y++ {
 				pillarSum += mc.Buffer[x][y][z]
 			}
-			score += absoluteVal(pillarSum - magicNumber)
+			score += AbsoluteVal(pillarSum - magicNumber)
 		}
 	}
 
@@ -130,8 +130,8 @@ func (mc *MagicCube) objectiveFunction() int {
 			diag2XY += mc.Buffer[i][dimension-i-1][z]
 		}
 
-		score += absoluteVal(diag1XY - magicNumber)
-		score += absoluteVal(diag2XY - magicNumber)
+		score += AbsoluteVal(diag1XY - magicNumber)
+		score += AbsoluteVal(diag2XY - magicNumber)
 	}
 
 	for y := 0; y < dimension; y++ {
@@ -143,8 +143,8 @@ func (mc *MagicCube) objectiveFunction() int {
 			diag2XZ += mc.Buffer[i][y][dimension-i-1]
 		}
 
-		score += absoluteVal(diag1XZ - magicNumber)
-		score += absoluteVal(diag2XZ - magicNumber)
+		score += AbsoluteVal(diag1XZ - magicNumber)
+		score += AbsoluteVal(diag2XZ - magicNumber)
 	}
 
 	for x := 0; x < dimension; x++ {
@@ -156,8 +156,8 @@ func (mc *MagicCube) objectiveFunction() int {
 			diag2YZ += mc.Buffer[x][i][dimension-i-1]
 		}
 
-		score += absoluteVal(diag1YZ - magicNumber)
-		score += absoluteVal(diag2YZ - magicNumber)
+		score += AbsoluteVal(diag1YZ - magicNumber)
+		score += AbsoluteVal(diag2YZ - magicNumber)
 	}
 
 	mainDiag3D := 0
@@ -172,22 +172,22 @@ func (mc *MagicCube) objectiveFunction() int {
 		antiDiag3_3D += mc.Buffer[dimension-i-1][dimension-i-1][i]
 	}
 
-	score += absoluteVal(mainDiag3D - magicNumber)
-	score += absoluteVal(antiDiag1_3D - magicNumber)
-	score += absoluteVal(antiDiag2_3D - magicNumber)
-	score += absoluteVal(antiDiag3_3D - magicNumber)
+	score += AbsoluteVal(mainDiag3D - magicNumber)
+	score += AbsoluteVal(antiDiag1_3D - magicNumber)
+	score += AbsoluteVal(antiDiag2_3D - magicNumber)
+	score += AbsoluteVal(antiDiag3_3D - magicNumber)
 
 	return -score
 }
 
-func (mc *MagicCube) getRandomIdx() [3]int {
+func (mc *MagicCube) GetRandomIdx() [3]int {
 	x := rand.Intn(mc.Size)
 	y := rand.Intn(mc.Size)
 	z := rand.Intn(mc.Size)
 	return [3]int{x, y, z}
 }
 
-func (mc *MagicCube) swapValues(idx1 [3]int, idx2 [3]int) {
+func (mc *MagicCube) SwapValues(idx1 [3]int, idx2 [3]int) {
 	temp := mc.Buffer[idx1[0]][idx1[1]][idx1[2]]
 	mc.Buffer[idx1[0]][idx1[1]][idx1[2]] = mc.Buffer[idx2[0]][idx2[1]][idx2[2]]
 	mc.Buffer[idx2[0]][idx2[1]][idx2[2]] = temp
