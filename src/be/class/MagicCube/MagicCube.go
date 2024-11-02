@@ -7,6 +7,7 @@ import (
 
 type MagicCube struct {
 	Size   int
+    Score  int
 	Buffer [][][]int
 }
 
@@ -199,4 +200,8 @@ func (mc *MagicCube) SwapValues(idx1 [3]int, idx2 [3]int) {
 	temp := mc.Buffer[idx1[0]][idx1[1]][idx1[2]]
 	mc.Buffer[idx1[0]][idx1[1]][idx1[2]] = mc.Buffer[idx2[0]][idx2[1]][idx2[2]]
 	mc.Buffer[idx2[0]][idx2[1]][idx2[2]] = temp
+}
+
+func ( mc *MagicCube) SetScore(score int) {
+	mc.Score = score
 }
