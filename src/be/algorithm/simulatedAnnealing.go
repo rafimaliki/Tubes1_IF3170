@@ -6,16 +6,21 @@ import (
 	"math"
 )
 
-func SimulatedAnnealing(cube *MagicCube.MagicCube) ([][][]int, error) {
+type Response struct {
+	Buffer             [][][]int
+	IndexChange        [][][]int
+	ObjectiveFunctions []int
+}
+
+func SimulatedAnnealing(cube *MagicCube.MagicCube) (Response, error) {
 
 	fmt.Println("\033[32mSimulated Annealing Algorithm\033[0m")
 
-	// 3D Matrix nya di cube.Buffer
-	// cube.Shuffle()
-
 	bestCube := cube.Copy()
 	temperature := 100.0
-	sameOrWorseScore := 0
+	// sameOrWorseScore := 0
+	indexChange := [][][]int{}
+	objectiveFunctions := []int{}
 
 	for {
 
@@ -24,7 +29,7 @@ func SimulatedAnnealing(cube *MagicCube.MagicCube) ([][][]int, error) {
 			// fmt.Println("Same or worse score: ", sameOrWorseScore)
 			// fmt.Println("Objective Function: ", bestCube.ObjectiveFunction())
 			fmt.Println("\033[32mDone!\033[0m")
-			return bestCube.Buffer, nil
+			break
 		}
 
 		swapSourceIdx := bestCube.GetRandomIdx()
@@ -43,23 +48,29 @@ func SimulatedAnnealing(cube *MagicCube.MagicCube) ([][][]int, error) {
 		if newCube.ObjectiveFunction() == 0 {
 			// fmt.Println("Objective Function: ", bestCube.ObjectiveFunction())
 			fmt.Println("\033[32mDone!\033[0m")
-			return newCube.Buffer, nil
+			bestCube = newCube
+			objectiveFunctions = append(objectiveFunctions, bestCube.ObjectiveFunction())
+
+			// return newCube.Buffer, nil
+			break
 		}
 
-		if bestCube.ObjectiveFunction() == 0 {
-			fmt.Println("Objective Function: ", bestCube.ObjectiveFunction())
-			fmt.Println("\033[32mDone!\033[0m")
-			return bestCube.Buffer, nil
-		}
+		// if bestCube.ObjectiveFunction() == 0 {
+		// 	fmt.Println("Objective Function: ", bestCube.ObjectiveFunction())
+		// 	fmt.Println("\033[32mDone!\033[0m")
+		// 	return bestCube.Buffer, nil
+		// }
 
 		deltaE := newCube.ObjectiveFunction() - bestCube.ObjectiveFunction()
-		if deltaE >= 0 {
-			sameOrWorseScore++
-		}
-		fmt.Println("Delta E: ", deltaE)
+		// if deltaE >= 0 {
+		// 	sameOrWorseScore++
+		// }
+		// fmt.Println("Delta E: ", deltaE)
 
 		if deltaE < 0 {
 			bestCube = newCube
+			indexChange = append(indexChange, [][]int{swapSourceIdx[:], swapTargetIdx[:]})
+			objectiveFunctions = append(objectiveFunctions, bestCube.ObjectiveFunction())
 		} else {
 			probability := math.Exp(-float64(deltaE) / temperature)
 			// fmt.Println("Probability: ", probability)
@@ -68,7 +79,8 @@ func SimulatedAnnealing(cube *MagicCube.MagicCube) ([][][]int, error) {
 			goDown := probability > 0.5
 
 			if goDown {
-				// print go down and objective function
+				indexChange = append(indexChange, [][]int{swapSourceIdx[:], swapTargetIdx[:]})
+				objectiveFunctions = append(objectiveFunctions, bestCube.ObjectiveFunction())
 				fmt.Println("Go Down")
 				fmt.Println("Objective Function: ", bestCube.ObjectiveFunction())
 				bestCube = newCube
@@ -77,4 +89,12 @@ func SimulatedAnnealing(cube *MagicCube.MagicCube) ([][][]int, error) {
 
 		temperature -= 0.01
 	}
+
+	Result := Response{
+		Buffer:             bestCube.Buffer,
+		IndexChange:        indexChange,
+		ObjectiveFunctions: objectiveFunctions,
+	}
+
+	return Result, nil
 }
