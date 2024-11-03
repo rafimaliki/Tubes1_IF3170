@@ -7,8 +7,9 @@ import (
 )
 
 type Response struct {
-	Buffer      [][][]int
-	IndexChange [][][]int
+	Buffer             [][][]int
+	IndexChange        [][][]int
+	ObjectiveFunctions []int
 }
 
 func SimulatedAnnealing(cube *MagicCube.MagicCube) (Response, error) {
@@ -19,6 +20,7 @@ func SimulatedAnnealing(cube *MagicCube.MagicCube) (Response, error) {
 	temperature := 100.0
 	// sameOrWorseScore := 0
 	indexChange := [][][]int{}
+	objectiveFunctions := []int{}
 
 	for {
 
@@ -47,6 +49,8 @@ func SimulatedAnnealing(cube *MagicCube.MagicCube) (Response, error) {
 			// fmt.Println("Objective Function: ", bestCube.ObjectiveFunction())
 			fmt.Println("\033[32mDone!\033[0m")
 			bestCube = newCube
+			objectiveFunctions = append(objectiveFunctions, bestCube.ObjectiveFunction())
+
 			// return newCube.Buffer, nil
 			break
 		}
@@ -66,6 +70,7 @@ func SimulatedAnnealing(cube *MagicCube.MagicCube) (Response, error) {
 		if deltaE < 0 {
 			bestCube = newCube
 			indexChange = append(indexChange, [][]int{swapSourceIdx[:], swapTargetIdx[:]})
+			objectiveFunctions = append(objectiveFunctions, bestCube.ObjectiveFunction())
 		} else {
 			probability := math.Exp(-float64(deltaE) / temperature)
 			// fmt.Println("Probability: ", probability)
@@ -74,8 +79,8 @@ func SimulatedAnnealing(cube *MagicCube.MagicCube) (Response, error) {
 			goDown := probability > 0.5
 
 			if goDown {
-				// print go down and objective function
 				indexChange = append(indexChange, [][]int{swapSourceIdx[:], swapTargetIdx[:]})
+				objectiveFunctions = append(objectiveFunctions, bestCube.ObjectiveFunction())
 				fmt.Println("Go Down")
 				fmt.Println("Objective Function: ", bestCube.ObjectiveFunction())
 				bestCube = newCube
@@ -86,8 +91,9 @@ func SimulatedAnnealing(cube *MagicCube.MagicCube) (Response, error) {
 	}
 
 	Result := Response{
-		Buffer:      bestCube.Buffer,
-		IndexChange: indexChange,
+		Buffer:             bestCube.Buffer,
+		IndexChange:        indexChange,
+		ObjectiveFunctions: objectiveFunctions,
 	}
 
 	return Result, nil
