@@ -19,11 +19,11 @@ const AlgorithmSelector = ({
   setSelectedAlgorithm,
 }: AlgorithmSelectorProps) => {
   return (
-    <div id="algorithm-selector">
+    <div>
       <p className="w-full px-2 mb-2 mt-5 cursor-default">Algorithm :</p>
-      <div className="ml-2">
+      <div className="mx-2 ">
         <Select value={selectedAlgorithm} onValueChange={setSelectedAlgorithm}>
-          <SelectTrigger className="w-[180px]">
+          <SelectTrigger className="w-full">
             <SelectValue placeholder="Algorithm" />
           </SelectTrigger>
           <SelectContent>

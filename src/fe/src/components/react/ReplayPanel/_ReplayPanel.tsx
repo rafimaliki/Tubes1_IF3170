@@ -125,8 +125,8 @@ const ReplayPanel = ({
             isHidden ? "opacity-0" : "opacity-100"
           }`}
         >
-          <p className="absolute left-1/2 transform -translate-x-1/2 font-bold font-sans cursor-default text-lg">
-            Iteration: {iter}
+          <p className="ml-10 font-bold font-sans cursor-default text-lg">
+            Iteration: {iter}; Score: {result?.ObjectiveFunctions[iter]}
           </p>
 
           <div className="flex gap-2 ml-auto mr-4">
