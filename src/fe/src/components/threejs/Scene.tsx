@@ -1,16 +1,16 @@
-import React from "react";
 import { Plane, OrbitControls, Text } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 
+import MagicCube from "@/class/MagicCube.ts";
 import MagicCube3D from "./MagicCube3D.tsx";
-import MagicCube from "../../class/MagicCube.ts";
 
 interface SceneProps {
   separate: { x: boolean; y: boolean; z: boolean };
   magicCube: MagicCube;
+  highlightIndex: number[][] | null;
 }
 
-const Scene: React.FC<SceneProps> = ({ separate, magicCube }) => {
+const Scene = ({ separate, magicCube, highlightIndex }: SceneProps) => {
   return (
     <Canvas
       className="w-full h-full"
@@ -37,7 +37,11 @@ const Scene: React.FC<SceneProps> = ({ separate, magicCube }) => {
         >
           →
         </Text> */}
-        <MagicCube3D separate={separate} magicCube={magicCube} />
+        <MagicCube3D
+          separate={separate}
+          magicCube={magicCube}
+          highlightIndex={highlightIndex}
+        />
       </group>
     </Canvas>
   );

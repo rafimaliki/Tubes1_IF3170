@@ -23,6 +23,23 @@ class MagicCube {
     }
   }
 
+  swapElement(
+    x1: number,
+    y1: number,
+    z1: number,
+    x2: number,
+    y2: number,
+    z2: number
+  ): void {
+    if (this.isValidIndex(x1, y1, z1) && this.isValidIndex(x2, y2, z2)) {
+      const temp = this.buffer[x1][y1][z1];
+      this.buffer[x1][y1][z1] = this.buffer[x2][y2][z2];
+      this.buffer[x2][y2][z2] = temp;
+    } else {
+      throw new Error("Invalid index");
+    }
+  }
+
   getElement(x: number, y: number, z: number): number {
     if (this.isValidIndex(x, y, z)) {
       return this.buffer[x][y][z];
@@ -207,7 +224,6 @@ class MagicCube {
     // this.buffer[4][4][2] = 7;
     // this.buffer[4][4][3] = 20;
     // this.buffer[4][4][4] = 59;
-
   }
 
   private randomizeValue(): void {

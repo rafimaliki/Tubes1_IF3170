@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 
-import Scene from "./components/threejs/Scene";
-import ControlPanel from "./components/react/ControlPanel";
-import MagicCube from "./class/MagicCube";
+import Scene from "@/components/threejs/Scene";
+import ControlPanel from "@/components/react/ControlPanel/_ControlPanel";
+import ReplayPanel from "@/components/react/ReplayPanel/_ReplayPanel";
+import MagicCube from "@/class/MagicCube";
+import Result from "@/class/Result";
 
 const App: React.FC = () => {
   const [separate, setSeparate] = useState<{
@@ -16,17 +18,31 @@ const App: React.FC = () => {
   });
 
   const [magicCube, setMagicCube] = useState(new MagicCube(5, false));
+  const [result, setResult] = useState<Result | null>(null);
+  const [highlightIndex, setHighlightIndex] = useState<number[][] | null>(null);
 
   return (
-    <div className="flex items-center justify-center w-full h-screen bg-gray-200">
+    <div className="flex items-center justify-center w-full h-screen bg-gray-200 overflow-hidden relative">
       <div className="w-full h-full">
         <ControlPanel
           separate={separate}
           setSeparate={setSeparate}
           magicCube={magicCube}
           setMagicCube={setMagicCube}
+          setResult={setResult}
+          setHighlightIndex={setHighlightIndex}
         />
-        <Scene separate={separate} magicCube={magicCube} />
+        <ReplayPanel
+          magicCube={magicCube}
+          setMagicCube={setMagicCube}
+          result={result}
+          setHighlightIndex={setHighlightIndex}
+        />
+        <Scene
+          separate={separate}
+          magicCube={magicCube}
+          highlightIndex={highlightIndex}
+        />
       </div>
     </div>
   );

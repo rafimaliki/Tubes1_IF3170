@@ -1,20 +1,19 @@
-import React from "react";
 import { Text } from "@react-three/drei";
 
 interface Cube3DProps {
   position: [number, number, number];
   number: number;
-  pivot: boolean;
+  highlight: boolean;
 }
 
-const Cube3D: React.FC<Cube3DProps> = ({ position, number, pivot }) => {
+const Cube3D = ({ position, number, highlight }: Cube3DProps) => {
   const positions: [number, number, number][] = [
     [0, 0, 0.51],
-    [0, 0, -0.51],
-    [0.52, 0, 0],
-    [-0.52, 0, 0],
-    [0, 0.52, 0],
-    [0, -0.52, 0],
+    // [0, 0, -0.51],
+    // [0.51, 0, 0],
+    // [-0.51, 0, 0],
+    // [0, 0.51, 0],
+    // [0, -0.51, 0],
   ];
 
   const rotations: [number, number, number][] = [
@@ -26,7 +25,7 @@ const Cube3D: React.FC<Cube3DProps> = ({ position, number, pivot }) => {
     [Math.PI / 2, 0, 0],
   ];
 
-  const color = false ? "lightcoral" : "mistyrose";
+  const color = highlight ? "lightcoral" : "mistyrose";
 
   return (
     <mesh position={position}>
