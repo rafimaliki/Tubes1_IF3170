@@ -7,6 +7,25 @@ import (
 	"time"
 )
 
+type Response struct {
+	// semua fungsi
+	Buffer             [][][]int
+	IndexChange        [][][]int
+	ObjectiveFunctions []int
+	ExecutionTimeInMS  int
+
+	//Steepest Ascent, Sideways Move HC, Simulated Annealing
+	Iterations int
+
+	// Random Restart HC
+	RestartCount        int
+	RestartPerIteration []int
+
+	// simulated annealing
+	LocalOptimum int
+	DeltaE       []int
+}
+
 func SimulatedAnnealing(cube *MagicCube.MagicCube) (Response, error) {
 
 	fmt.Println("\033[32mSimulated Annealing Algorithm\033[0m")
