@@ -9,7 +9,7 @@ Diagonal Magic Cube Solver Menggunakan Algoritma Pencarian Lokal<br><br>
 
 ## Deskripsi
 <div align="justify">
-Aplikasi ini merupakan solver untuk Diagonal Magic Cube menggunakan algoritma pencarian lokal seperti Hill Climbing, Genetic Algorithm, dan Simulated Annealing. Dibangun dengan React.js, Vite, TypeScript, dan Tailwind CSS untuk frontend, serta Golang untuk backend. Visualisasi dilakukan dengan three.js dan chart.js, serta pustaka UI shadcn dan react-spinners.
+Aplikasi ini merupakan solver untuk Diagonal Magic Cube menggunakan algoritma pencarian lokal seperti Hill Climbing, Genetic Algorithm, dan Simulated Annealing. Dibangun dengan React.js, Vite, TypeScript, dan Tailwind CSS untuk frontend, serta Golang untuk backend. Visualisasi dilakukan dengan three.js dan chart.js, serta pustaka UI shadcn dan react-spinners. <a href="https://docs.google.com/document/d/1QDj9Pi3HrBr2VdFIvsnrA8KXaISpEr4JaGlYRxOUPWw/edit?tab=t.0" target="_blank">Lihat spek disini.</a>
  </div> 
 <br>
 
