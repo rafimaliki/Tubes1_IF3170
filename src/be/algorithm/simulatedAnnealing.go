@@ -16,7 +16,7 @@ func SimulatedAnnealing(cube *MagicCube.MagicCube) (MagicCube.Response, error) {
 	indexChange := [][][]int{}
 	objectiveFunctions := []int{}
 	countLocalOptimum := 0
-	deltaEValues := []int{}
+	deltaEValues := []float64{}
 	iterations := 0
 	cubeStates := [][][][]int{}
 
@@ -58,13 +58,13 @@ func SimulatedAnnealing(cube *MagicCube.MagicCube) (MagicCube.Response, error) {
 			deltaE := newCube.ObjectiveFunction() - bestCube.ObjectiveFunction()
 
 			if deltaE > 0 {
-				deltaEValues = append(deltaEValues, 1)
+				deltaEValues = append(deltaEValues, 1.0)
 				bestCube = newCube
 				indexChange = append(indexChange, [][]int{swapSourceIdx[:], swapTargetIdx[:]})
 			} else {
 				countLocalOptimum++
-				deltaEValues = append(deltaEValues, deltaE)
 				probability := math.Exp(float64(deltaE) / temperature)
+				deltaEValues = append(deltaEValues, probability)
 				goDown := probability > 0.9
 
 				if goDown {

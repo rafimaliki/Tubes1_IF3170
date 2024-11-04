@@ -28,7 +28,7 @@ type Response struct {
 
 	// simulated annealing
 	LocalOptimum int
-	DeltaE       []int
+	DeltaE       []float64
 
 	// genetic algorithm
 	ObjectiveFunctionsMean []int
