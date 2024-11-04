@@ -12,13 +12,22 @@ type MagicCube struct {
 }
 
 type Response struct {
+	// semua fungsi
 	Buffer             [][][]int
 	IndexChange        [][][]int
 	ObjectiveFunctions []int
-	LocalOptimum       int
-	Iterations         int
-	DeltaE             []int
 	ExecutionTimeInMS  int
+
+	//Steepest Ascent, Sideways Move HC, Simulated Annealing
+	Iterations int
+
+	// Random Restart HC
+	RestartCount        int
+	RestartPerIteration []int
+
+	// simulated annealing
+	LocalOptimum int
+	DeltaE       []int
 }
 
 func New(size ...int) *MagicCube {
