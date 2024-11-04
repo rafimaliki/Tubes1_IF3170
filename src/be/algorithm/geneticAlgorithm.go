@@ -19,7 +19,10 @@ func GeneticAlgorithm(cube *MagicCube.MagicCube, startpopulation int, iteration 
             copy(copycube.Buffer[j][k], cube.Buffer[j][k])
         }
     }
+    objfunc := cube.ObjectiveFunction()
+    copycube.SetScore(objfunc)
     // fmt.Println("Buffer: ", copycube.Buffer)
+    response.ObjectiveFunctions = append(response.ObjectiveFunctions, objfunc)
     response.CubeStates = append(response.CubeStates, copycube.Buffer)
     idx := 0
     start := time.Now()
@@ -62,7 +65,7 @@ func GeneticAlgorithm(cube *MagicCube.MagicCube, startpopulation int, iteration 
                 listprobability = append(listprobability, listprobability[j-1]+ 100.0 * (listfitness[j]/totalfitness))
             }
         }
-        for k:=0; k<len(population); k++ {
+        for k:=0; k<len(population)/2; k++ {
             selector := float64(rand.Intn(100))
             selector1 := float64(rand.Intn(100))
 
