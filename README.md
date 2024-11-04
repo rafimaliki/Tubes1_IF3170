@@ -52,6 +52,8 @@ go run main.go
 
 ## Pembagian Tugas
 
+### Kelompok 4 - K03 - IF22
+
 | Nama |  NIM  | Tugas |
 |:-----:|:--------:|:------:|
 | Maulana Muhamad Susetyo   | 13522127 | Algoritma Hill Climbing |
