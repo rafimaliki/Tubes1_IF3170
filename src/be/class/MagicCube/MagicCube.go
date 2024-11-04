@@ -11,6 +11,25 @@ type MagicCube struct {
 	Buffer [][][]int
 }
 
+type Response struct {
+	// semua fungsi
+	Buffer             [][][]int
+	IndexChange        [][][]int
+	ObjectiveFunctions []int
+	ExecutionTimeInMS  int
+
+	//Steepest Ascent, Sideways Move HC, Simulated Annealing
+	Iterations int
+
+	// Random Restart HC
+	RestartCount        int
+	RestartPerIteration []int
+
+	// simulated annealing
+	LocalOptimum int
+	DeltaE       []int
+}
+
 func New(size ...int) *MagicCube {
 	var n int
 	if len(size) > 0 {
