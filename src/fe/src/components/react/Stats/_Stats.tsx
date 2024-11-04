@@ -13,13 +13,25 @@ const Stats = ({ result }: StatsProps) => {
           <div className="snap-center w-full h-full flex-shrink-0">
             <LineChart
               values={result.ObjectiveFunctions}
-              label="Objective Score"
+              label={
+                result.Algorithm === "genetic-algorithm"
+                  ? "Max Objective Score per Generation"
+                  : "Objective Score per Iteration"
+              }
             />
           </div>
         ) : null}
         {result?.DeltaE ? (
           <div className="snap-center w-full h-full flex-shrink-0">
             <LineChart values={result.DeltaE} label="Delta E Value" />
+          </div>
+        ) : null}
+        {result?.ObjectiveFunctionsMean ? (
+          <div className="snap-center w-full h-full flex-shrink-0">
+            <LineChart
+              values={result.ObjectiveFunctionsMean}
+              label="Objective Score Mean per Generation"
+            />
           </div>
         ) : null}
       </div>
@@ -56,12 +68,7 @@ const Stats = ({ result }: StatsProps) => {
               value={result.RestartPerIteration.join(", ")}
             />
           ) : null}
-          {result?.ObjectiveFunctionsMean ? (
-            <DataLabel
-              label="Objective Functions Mean"
-              value={result.ObjectiveFunctionsMean.join(", ")}
-            />
-          ) : null}
+
           {result?.Population ? (
             <DataLabel label="Population" value={result.Population} />
           ) : null}
