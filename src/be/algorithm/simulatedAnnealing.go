@@ -7,16 +7,6 @@ import (
 	"time"
 )
 
-type Response struct {
-	Buffer             [][][]int
-	IndexChange        [][][]int
-	ObjectiveFunctions []int
-	LocalOptimum       int
-	Iterations         int
-	DeltaE             []int
-	ExecutionTimeInMS  int
-}
-
 func SimulatedAnnealing(cube *MagicCube.MagicCube) (Response, error) {
 
 	fmt.Println("\033[32mSimulated Annealing Algorithm\033[0m")
