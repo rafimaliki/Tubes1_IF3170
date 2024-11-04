@@ -30,7 +30,7 @@ const ControlPanel = ({
 }: ControlPanelProps) => {
   const [isHidden, setIsHidden] = useState(false);
   const [selectedAlgorithm, setSelectedAlgorithm] = useState(
-    Config.algorithms[4].endpoint
+    Config.algorithms[0].endpoint
   );
 
   const [maxSideways, setMaxSideways] = useState(Config.maxSideways);
