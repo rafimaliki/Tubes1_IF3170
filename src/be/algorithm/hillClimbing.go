@@ -70,7 +70,7 @@ func SteepestAscentHillClimbing(cube *MagicCube.MagicCube) (MagicCube.Response, 
 		ObjectiveFunctions: objectiveFunctions,
 		ExecutionTimeInMS:  executionTimeInMS,
 		CubeStates:         cubeStates,
-		Iterations:         iter,
+		Iterations:         iter + 1,
 	}
 	return Result, nil
 }
@@ -139,7 +139,7 @@ func SidewaysMoveHillClimbing(cube *MagicCube.MagicCube, maxOcc int) (MagicCube.
 		ObjectiveFunctions: objectiveFunctions,
 		ExecutionTimeInMS:  executionTimeInMS,
 		CubeStates:         cubeStates,
-		Iterations:         iter,
+		Iterations:         iter + 1,
 	}
 	return Result, nil
 }
@@ -236,8 +236,7 @@ func StochasticHillClimbing(cube *MagicCube.MagicCube) (MagicCube.Response, erro
 	iter := 100000
 	indexChange := [][][]int{}
 	objectiveFunctions := []int{}
-	currentObjectiveValue := cube.ObjectiveFunction()
-	objectiveFunctions = append(objectiveFunctions, currentObjectiveValue)
+	objectiveFunctions = append(objectiveFunctions, cur)
 	cubeStates := [][][][]int{}
 	cubeStates = append(cubeStates, cube.Copy().Buffer)
 	for i := 0; i < iter; i++ {
@@ -257,13 +256,13 @@ func StochasticHillClimbing(cube *MagicCube.MagicCube) (MagicCube.Response, erro
 		if res > cur {
 			fmt.Println(res)
 			cur = res
-			objectiveFunctions = append(objectiveFunctions, res)
-			indexChange = append(indexChange, [][]int{swapOne[:], swapTwo[:]})
-			cubeStates = append(cubeStates, cube.Copy().Buffer)
+
 		} else {
 			cube.SwapValues(swapOne, swapTwo)
 		}
-
+		objectiveFunctions = append(objectiveFunctions, res)
+		indexChange = append(indexChange, [][]int{swapOne[:], swapTwo[:]})
+		cubeStates = append(cubeStates, cube.Copy().Buffer)
 		if i%1000 == 0 {
 			fmt.Println(i, "th iteration")
 		}
@@ -280,7 +279,7 @@ func StochasticHillClimbing(cube *MagicCube.MagicCube) (MagicCube.Response, erro
 		ObjectiveFunctions: objectiveFunctions,
 		ExecutionTimeInMS:  executionTimeInMS,
 		CubeStates:         cubeStates,
-		Iterations:         iter,
+		Iterations:         iter + 1,
 	}
 	return Result, nil
 }
