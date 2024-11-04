@@ -1,6 +1,11 @@
 # Tugas Besar 1 IF3170 - Inteligensi Artifisial
 Diagonal Magic Cube Solver Menggunakan Algoritma Pencarian Lokal<br><br>
 
+<div style="display: flex; justify-content: center; align-items:center; gap: 20px; width:100%;">
+  <img src="img/img1.png" alt="Image 1" style="width: 49%; height: auto;" />
+  <img src="img/img2.png" alt="Image 2" style="width: 49%; height: auto;" />
+</div>
+
 
 ## Deskripsi
 <div align="justify">
