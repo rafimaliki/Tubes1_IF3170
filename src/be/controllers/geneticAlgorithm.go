@@ -12,6 +12,8 @@ import (
 func GeneticAlgorithm(c *gin.Context) {
     
     cubeStr := c.Query("cube")
+	startpopulation := 10000
+	iteration := 5
 
 	magicCube := MagicCube.New()
 	err := json.Unmarshal([]byte(cubeStr), &magicCube.Buffer)
@@ -21,7 +23,7 @@ func GeneticAlgorithm(c *gin.Context) {
 		return
 	}
 
-	result, err := algorithm.GeneticAlgorithm(magicCube)
+	result, err := algorithm.GeneticAlgorithm(magicCube, startpopulation, iteration)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
