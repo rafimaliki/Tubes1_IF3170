@@ -1,9 +1,8 @@
 import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
 import { Line } from "react-chartjs-2";
-import zoomPlugin from "chartjs-plugin-zoom";
 
-Chart.register(CategoryScale, zoomPlugin);
+Chart.register(CategoryScale);
 
 interface DataPoint {
   iteration: number;
@@ -56,30 +55,13 @@ const LineChart = ({ values, label }: LineChartProps) => {
         display: true,
         title: {
           display: true,
-          text: "Objective Score",
+          text: label,
         },
         beginAtZero: false,
         suggestedMin: Math.min(...data.map((d) => d.objScore)) - 1,
         suggestedMax: 0,
       },
     },
-    // plugins: {
-    //   zoom: {
-    //     zoom: {
-    //       wheel: {
-    //         enabled: true,
-    //       },
-    //       pinch: {
-    //         enabled: true,
-    //       },
-    //       mode: "xy",
-    //     },
-    //     pan: {
-    //       enabled: true,
-    //       mode: "xy",
-    //     },
-    //   },
-    // },
   };
 
   return (
