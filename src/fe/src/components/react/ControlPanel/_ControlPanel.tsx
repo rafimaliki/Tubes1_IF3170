@@ -16,6 +16,7 @@ interface ControlPanelProps {
   setMagicCube: SetState<MagicCube>;
   setResult: SetState<Result | null>;
   setHighlightIndex: SetState<number[][] | null>;
+  setIsLoading: SetState<boolean>;
 }
 
 const ControlPanel = ({
@@ -25,10 +26,11 @@ const ControlPanel = ({
   setMagicCube,
   setResult,
   setHighlightIndex,
+  setIsLoading,
 }: ControlPanelProps) => {
   const [isHidden, setIsHidden] = useState(false);
   const [selectedAlgorithm, setSelectedAlgorithm] = useState(
-    Config.algorithms[4].endpoint
+    Config.algorithms[0].endpoint
   );
 
   const [maxSideways, setMaxSideways] = useState(Config.maxSideways);
@@ -118,6 +120,7 @@ const ControlPanel = ({
             maxRestart={maxRestart}
             startPopulation={startPopulation}
             maxIteration={maxIteration}
+            setIsLoading={setIsLoading}
           />
         </div>
       </div>

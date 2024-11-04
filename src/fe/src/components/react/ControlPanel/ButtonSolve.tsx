@@ -14,6 +14,7 @@ interface ButtonSolveProps {
   maxRestart: number;
   startPopulation: number;
   maxIteration: number;
+  setIsLoading: SetState<boolean>;
 }
 
 const SolveButton = ({
@@ -26,6 +27,7 @@ const SolveButton = ({
   maxRestart,
   startPopulation,
   maxIteration,
+  setIsLoading,
 }: ButtonSolveProps) => {
   const handleClick = () => {
     console.log("Solving with", selectedAlgorithm);
@@ -56,11 +58,12 @@ const SolveButton = ({
     }
 
     setResult(null);
+    setIsLoading(true);
 
     axios
       .get(`http://localhost:8080/${selectedAlgorithm}/`, { params })
       .then((response) => {
-        //console response size in mb
+        setIsLoading(false);
         console.log(
           "Response size:",
           JSON.stringify(response.data).length / 1024 / 1024,

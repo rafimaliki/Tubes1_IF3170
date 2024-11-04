@@ -18,7 +18,7 @@ const SeparateButtons = ({ separate, setSeparate }: SeparateButtonsProps) => {
   return (
     <div>
       <p className="w-full px-2 mb-2 mt-5 cursor-default">Separate Cubes :</p>
-      <div>
+      <div className="flex justify-between">
         {["x", "y", "z"].map((axis) => (
           <button
             key={axis}
