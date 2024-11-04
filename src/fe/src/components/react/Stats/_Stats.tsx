@@ -56,6 +56,15 @@ const Stats = ({ result }: StatsProps) => {
               value={result.RestartPerIteration.join(", ")}
             />
           ) : null}
+          {result?.ObjectiveFunctionsMean ? (
+            <DataLabel
+              label="Objective Functions Mean"
+              value={result.ObjectiveFunctionsMean.join(", ")}
+            />
+          ) : null}
+          {result?.Population ? (
+            <DataLabel label="Population" value={result.Population} />
+          ) : null}
         </div>
       </div>
     </div>

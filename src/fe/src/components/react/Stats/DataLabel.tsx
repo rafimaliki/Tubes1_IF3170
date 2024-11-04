@@ -5,11 +5,11 @@ interface DataLabelProps {
 
 const DataLabel = ({ label, value }: DataLabelProps) => {
   return (
-    <p>
-      <span className="text-neutral-400 font-light inline-block w-40">
+    <p className="flex items-start">
+      <span className="text-neutral-400 font-light inline-block w-40 align-top">
         {label}
       </span>
-      <span className="font-semibold">{value}</span>
+      <span className="font-semibold align-top">{value}</span>
     </p>
   );
 };

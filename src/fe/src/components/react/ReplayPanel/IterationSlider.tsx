@@ -36,7 +36,7 @@ const IterationSlider = ({
       debounceTimeout.current = setTimeout(() => {
         // console.log("Iterations:", value[0]);
         setMagicCube(resultRef.current.MagicCubes[value[0]]);
-        if (value[0] !== 0) {
+        if (value[0] !== 0 && resultRef.current.IndexChange) {
           setHighlightIndex(resultRef.current.IndexChange[value[0] - 1]);
         } else {
           setHighlightIndex(null);

@@ -15,6 +15,7 @@ class Result {
   RestartPerIteration: number[] | null = null;
   Algorithm: string;
   MaxIteration: number;
+  Population: number | null;
 
   constructor({
     Buffer,
@@ -30,6 +31,7 @@ class Result {
     RestartPerIteration,
     MagicCube,
     Algorithm,
+    Population,
   }: {
     Buffer: number[][][];
     CubeStates: number[][][][];
@@ -44,6 +46,7 @@ class Result {
     RestartPerIteration: number[];
     MagicCube: MagicCube;
     Algorithm: string;
+    Population: number;
   }) {
     this.Buffer = Buffer;
     this.DeltaE = DeltaE;
@@ -58,8 +61,9 @@ class Result {
     this.RestartCount = RestartCount;
     this.RestartPerIteration = RestartPerIteration;
 
-    this.MaxIteration = IndexChange.length;
+    this.MaxIteration = 0;
     this.Algorithm = Algorithm;
+    this.Population = this.Algorithm == "genetic-algorithm" ? Population : null;
 
     this.initMagicCubes(CubeStates);
 
@@ -73,6 +77,7 @@ class Result {
       magicCube.setCube(CubeStates[i]);
       this.MagicCubes.push(magicCube);
     }
+    this.MaxIteration = this.MagicCubes.length - 1;
   }
 }
 
