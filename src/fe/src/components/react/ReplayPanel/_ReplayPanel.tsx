@@ -39,7 +39,10 @@ const ReplayPanel = ({
   const handleNext = () => {
     setIter((prevIter) => {
       const newIter = Math.min(prevIter + 1, result?.MaxIteration ?? 0);
-      setHighlightIndex(result?.IndexChange[newIter - 1] ?? null);
+      if (result?.IndexChange)
+        setHighlightIndex(
+          result?.IndexChange ? result.IndexChange[newIter - 1] ?? null : null
+        );
       if (result && result.MagicCubes) {
         setMagicCube(result.MagicCubes[newIter] ?? magicCube);
       }
@@ -50,7 +53,9 @@ const ReplayPanel = ({
   const handlePrev = () => {
     setIter((prevIter) => {
       const newIter = Math.max(prevIter - 1, 0);
-      setHighlightIndex(result?.IndexChange[newIter - 1] ?? null);
+      setHighlightIndex(
+        result?.IndexChange ? result.IndexChange[newIter - 1] ?? null : null
+      );
       if (result && result.MagicCubes) {
         setMagicCube(result.MagicCubes[newIter] ?? magicCube);
       }
@@ -81,7 +86,9 @@ const ReplayPanel = ({
           setPlayInterval(null);
           return prevIter;
         }
-        setHighlightIndex(result?.IndexChange[newIter - 1] ?? null);
+        setHighlightIndex(
+          result?.IndexChange ? result.IndexChange[newIter - 1] ?? null : null
+        );
         if (result && result.MagicCubes) {
           setMagicCube(result.MagicCubes[newIter] ?? magicCube);
         }
@@ -129,7 +136,10 @@ const ReplayPanel = ({
           }`}
         >
           <p className="ml-10 font-bold font-sans cursor-default text-lg">
-            Iteration: {iter}; Score: {result?.ObjectiveFunctions[iter]}
+            Iteration: {iter}; Score:{" "}
+            {result?.ObjectiveFunctions
+              ? result.ObjectiveFunctions[iter]
+              : "N/A"}
           </p>
 
           <div className="flex gap-2 ml-auto mr-4">

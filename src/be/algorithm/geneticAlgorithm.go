@@ -10,7 +10,20 @@ import (
 func GeneticAlgorithm(cube *MagicCube.MagicCube, startpopulation int, iteration int) (MagicCube.Response, error) {
     
     response := MagicCube.Response{}
-    response.CubeStates = append(response.CubeStates, cube.Buffer)
+    copycube := MagicCube.MagicCube{}
+    copycube.Buffer = make([][][]int, len(cube.Buffer))
+    for j := range cube.Buffer {
+        copycube.Buffer[j] = make([][]int, len(cube.Buffer[j]))
+        for k := range cube.Buffer[j] {
+            copycube.Buffer[j][k] = make([]int, len(cube.Buffer[j][k]))
+            copy(copycube.Buffer[j][k], cube.Buffer[j][k])
+        }
+    }
+    objfunc := cube.ObjectiveFunction()
+    copycube.SetScore(objfunc)
+    // fmt.Println("Buffer: ", copycube.Buffer)
+    response.ObjectiveFunctions = append(response.ObjectiveFunctions, objfunc)
+    response.CubeStates = append(response.CubeStates, copycube.Buffer)
     idx := 0
     start := time.Now()
     population := [](MagicCube.MagicCube){}    
@@ -52,7 +65,7 @@ func GeneticAlgorithm(cube *MagicCube.MagicCube, startpopulation int, iteration 
                 listprobability = append(listprobability, listprobability[j-1]+ 100.0 * (listfitness[j]/totalfitness))
             }
         }
-        for k:=0; k<len(population); k++ {
+        for k:=0; k<len(population)/2; k++ {
             selector := float64(rand.Intn(100))
             selector1 := float64(rand.Intn(100))
 
@@ -102,7 +115,7 @@ func GeneticAlgorithm(cube *MagicCube.MagicCube, startpopulation int, iteration 
     fmt.Println("\033[32mGenetic Algorithm\033[0m")
 
     response.Buffer = population[idx].Buffer
-    // fmt.Println("Buffer: ", response.Buffer[0][0])
+    // fmt.Println("Buffer: ", response.Buffer)
     // fmt.Println("Objective Functions: ", response.ObjectiveFunctions)
     // fmt.Println("Execution Time: ", response.ExecutionTimeInMS, "ms")
 	

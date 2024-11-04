@@ -73,19 +73,22 @@ const SolveButton = ({
             ...response.data.result,
             MagicCube: magicCube,
             Algorithm: selectedAlgorithm,
+            Population: startPopulation,
           })
         );
 
         const newMagicCube = new MagicCube(magicCube.getSize(), false);
         newMagicCube.setCube(response.data.result.Buffer);
 
-        const lastSwapIdx =
-          response.data.result.IndexChange[
-            response.data.result.IndexChange.length - 1
-          ];
-        // console.log("Last swap:", lastSwapIdx);
-
-        setHighlightIndex(lastSwapIdx);
+        if (response.data.result.IndexChange) {
+          const lastSwapIdx =
+            response.data.result.IndexChange[
+              response.data.result.IndexChange.length - 1
+            ];
+          setHighlightIndex(lastSwapIdx);
+        } else {
+          setHighlightIndex(null);
+        }
         setMagicCube(newMagicCube);
       })
       .catch((error) => {
