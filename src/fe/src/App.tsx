@@ -52,7 +52,7 @@ const App = () => {
         />
       </div>
 
-      {true ? (
+      {result ? (
         <div
           ref={statsRef}
           className="w-full h-screen flex items-center justify-center "
