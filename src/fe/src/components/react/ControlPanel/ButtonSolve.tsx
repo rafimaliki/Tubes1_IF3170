@@ -62,7 +62,7 @@ const SolveButton = ({
     axios
       .get(`http://localhost:8080/${selectedAlgorithm}/`, { params })
       .then((response) => {
-        // console.log("Response:", response.data);
+        console.log("Response:", response.data);
         setResult(
           new Result({
             ...response.data.result,
