@@ -10,6 +10,7 @@ import (
 func GeneticAlgorithm(cube *MagicCube.MagicCube, startpopulation int, iteration int) (MagicCube.Response, error) {
     
     response := MagicCube.Response{}
+    response.CubeStates = append(response.CubeStates, cube.Buffer)
     idx := 0
     start := time.Now()
     population := [](MagicCube.MagicCube){}    
@@ -156,7 +157,7 @@ func crossover(cube *MagicCube.MagicCube, e MagicCube.MagicCube, f MagicCube.Mag
         for k := 0; k < 5; k++ {
             for l := 0; l < 5; l++ {
                 if tracknumw[w[j][k][l]] > 1 {
-                    for m := 0; m < len(tracknumw); m++ {
+                    for m := 1; m < len(tracknumw); m++ {
                         if tracknumw[m] == 0 {
                             w[j][k][l] = m
                             tracknumw[m]++
@@ -165,7 +166,7 @@ func crossover(cube *MagicCube.MagicCube, e MagicCube.MagicCube, f MagicCube.Mag
                     }
                 }
                 if tracknumx[x[j][k][l]] > 1 {
-                    for m := 0; m < len(tracknumx); m++ {
+                    for m := 1; m < len(tracknumx); m++ {
                         if tracknumx[m] == 0 {
                             x[j][k][l] = m
                             tracknumx[m]++
@@ -202,3 +203,4 @@ func crossover(cube *MagicCube.MagicCube, e MagicCube.MagicCube, f MagicCube.Mag
     newcube2.SetScore(score)
     *newpopulation = append(*newpopulation, newcube2)
 }
+
