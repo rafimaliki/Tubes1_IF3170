@@ -4,13 +4,15 @@ import (
 	"be/class/MagicCube"
 	"fmt"
     "math/rand"
+    "time"
 )
 
-func GeneticAlgorithm(cube *MagicCube.MagicCube) ([][][]int, error) {
-    population := [](MagicCube.MagicCube){}
-
-    // listBuffer := []([][][]int){}
+func GeneticAlgorithm(cube *MagicCube.MagicCube, startpopulation int, iteration int) (MagicCube.Response, error) {
     
+    response := MagicCube.Response{}
+    idx := 0
+    start := time.Now()
+    population := [](MagicCube.MagicCube){}    
     for i := 0; i < 10000; i++ {
         cube.Shuffle()
         newcube := MagicCube.MagicCube{}
@@ -73,27 +75,35 @@ func GeneticAlgorithm(cube *MagicCube.MagicCube) ([][][]int, error) {
             crossover(cube, use1, use2, &newpopulation)
         }
         population = newpopulation
-    }
 
+        totalscore := 0
+        score := -1000000
+        for i:=0; i< len(population); i++ {
+            if score < population[i].Score {
+                score = population[i].Score
+                idx = i
+            }
+            totalscore += population[i].Score
+        }       
+        response.ObjectiveFunctions = append(response.ObjectiveFunctions, score)
+        response.ObjectiveFunctionsMean = append(response.ObjectiveFunctionsMean, totalscore/len(population))
 
-
-    idx := 0
-    score := -1000000
-    for i:=0; i< len(population); i++ {
-        if score < population[i].Score {
-            score = population[i].Score
-            idx = i
+        if score == 0 {
+            break
         }
     }
 
+    
+    elapsed := time.Since(start)
+    response.ExecutionTimeInMS = int(elapsed.Milliseconds())
 
     fmt.Println("\033[32mGenetic Algorithm\033[0m")
 
-    if score == 0 {
-        fmt.Println("\033[31mSolution Found\033[0m")
-    }
+    response.Buffer = population[idx].Buffer
+    // fmt.Println("Buffer: ", response.Buffer[0][1])
+    // fmt.Println("Execution Time: ", response.ExecutionTimeInMS, "ms")
 	
-    return population[idx].Buffer, nil 
+    return response, nil 
 }
 
 func crossover(cube *MagicCube.MagicCube, e MagicCube.MagicCube, f MagicCube.MagicCube, newpopulation *[]MagicCube.MagicCube) {

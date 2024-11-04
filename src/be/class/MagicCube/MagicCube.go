@@ -29,6 +29,9 @@ type Response struct {
 	// simulated annealing
 	LocalOptimum int
 	DeltaE       []int
+
+	// genetic algorithm
+	ObjectiveFunctionsMean []int
 }
 
 func New(size ...int) *MagicCube {
