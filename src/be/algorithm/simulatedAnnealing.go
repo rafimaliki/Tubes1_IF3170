@@ -79,7 +79,7 @@ func SimulatedAnnealing(cube *MagicCube.MagicCube) (MagicCube.Response, error) {
 
 			objectiveFunctions = append(objectiveFunctions, bestCube.ObjectiveFunction())
 			cubeStates = append(cubeStates, bestCube.Buffer)
-			temperature -= 0.1
+			temperature -= 0.001
 		}
 	}
 

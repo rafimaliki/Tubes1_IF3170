@@ -146,7 +146,7 @@ func SidewaysMoveHillClimbing(cube *MagicCube.MagicCube, maxOcc int) (MagicCube.
 
 func RandomRestartHillClimbing(cube *MagicCube.MagicCube, numOfRestart int) (MagicCube.Response, error) {
 	start := time.Now()
-	pairs := make(map[[2]int]int)
+
 	indexChange := [][][]int{}
 	objectiveFunctions := []int{}
 	currentObjectiveValue := cube.ObjectiveFunction()
@@ -159,10 +159,10 @@ func RandomRestartHillClimbing(cube *MagicCube.MagicCube, numOfRestart int) (Mag
 	restartPerIteration := []int{}
 
 	for {
-		fmt.Println(restartCount)
 		for {
-			currentObjectiveValue := cube.ObjectiveFunction()
-			maxObjectiveValue := currentObjectiveValue
+			pairs := make(map[[2]int]int)
+			currentObjectiveValue = cube.ObjectiveFunction()
+			maxObjectiveValue = currentObjectiveValue
 			res := 0
 			for i := 0; i < 125; i++ {
 				for j := i + 1; j < 125; j++ {
@@ -194,25 +194,30 @@ func RandomRestartHillClimbing(cube *MagicCube.MagicCube, numOfRestart int) (Mag
 			swapTwo := MagicCube.IntToThreeDee(randomPair[1])
 
 			indexChange = append(indexChange, [][]int{swapOne[:], swapTwo[:]})
+			objectiveFunctions = append(objectiveFunctions, maxObjectiveValue)
 			cube.SwapValues(swapOne, swapTwo)
 			cubeStates = append(cubeStates, cube.Buffer)
 			iteration++
 		}
 		fmt.Println(restartCount)
 		restartPerIteration = append(restartPerIteration, iteration)
-		restartCount++
+
 		sz := MagicCube.IntToThreeDee(0)
 		indexChange = append(indexChange, [][]int{sz[:], sz[:]})
 		iteration = 0
 		if restartCount >= numOfRestart || maxObjectiveValue == 0 {
 			break
 		}
+		restartCount++
 		cube.Shuffle()
 	}
+
 	fmt.Println("Objective Function: ", cube.ObjectiveFunction())
+
 	elapsed := time.Since(start)
 	executionTimeInMS := int(elapsed.Milliseconds())
 	fmt.Println("time: ", elapsed)
+
 	Result := MagicCube.Response{
 		Buffer:              cube.Buffer,
 		IndexChange:         indexChange,

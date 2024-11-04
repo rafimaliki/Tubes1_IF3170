@@ -5,6 +5,7 @@ import (
 	"be/class/MagicCube"
 	"encoding/json"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -35,7 +36,7 @@ func SteepestAscentHillClimbing(c *gin.Context) {
 func SidewaysMoveHillClimbing(c *gin.Context) {
 
 	cubeStr := c.Query("cube")
-
+	maxSideways, _ := strconv.Atoi(c.Query("maxSideways"))
 	magicCube := MagicCube.New()
 	err := json.Unmarshal([]byte(cubeStr), &magicCube.Buffer)
 
@@ -44,7 +45,7 @@ func SidewaysMoveHillClimbing(c *gin.Context) {
 		return
 	}
 
-	result, err := algorithm.SidewaysMoveHillClimbing(magicCube, 100)
+	result, err := algorithm.SidewaysMoveHillClimbing(magicCube, maxSideways)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -58,7 +59,7 @@ func SidewaysMoveHillClimbing(c *gin.Context) {
 func RandomRestartHillClimbing(c *gin.Context) {
 
 	cubeStr := c.Query("cube")
-
+	maxRestart, _ := strconv.Atoi(c.Query("maxRestart"))
 	magicCube := MagicCube.New()
 	err := json.Unmarshal([]byte(cubeStr), &magicCube.Buffer)
 
@@ -67,7 +68,7 @@ func RandomRestartHillClimbing(c *gin.Context) {
 		return
 	}
 
-	result, err := algorithm.RandomRestartHillClimbing(magicCube, 10)
+	result, err := algorithm.RandomRestartHillClimbing(magicCube, maxRestart)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
