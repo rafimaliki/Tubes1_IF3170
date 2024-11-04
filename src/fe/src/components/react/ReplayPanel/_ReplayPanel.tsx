@@ -81,7 +81,7 @@ const ReplayPanel = ({
     const intervalId = setInterval(() => {
       setIter((prevIter) => {
         const newIter = prevIter + 1;
-        if (newIter >= (result?.MaxIteration ?? 0)) {
+        if (newIter > (result?.MaxIteration ?? 0)) {
           clearInterval(intervalId);
           setPlayInterval(null);
           return prevIter;
