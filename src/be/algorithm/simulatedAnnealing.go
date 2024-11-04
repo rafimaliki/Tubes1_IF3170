@@ -15,52 +15,54 @@ func SimulatedAnnealing(cube *MagicCube.MagicCube) (MagicCube.Response, error) {
 	temperature := 100.0
 	indexChange := [][][]int{}
 	objectiveFunctions := []int{}
-	objectiveFunctions = append(objectiveFunctions, bestCube.ObjectiveFunction())
 	countLocalOptimum := 0
 	deltaEValues := []int{}
 	iterations := 0
 
 	start := time.Now()
+	initialScore := bestCube.ObjectiveFunction()
+	objectiveFunctions = append(objectiveFunctions, initialScore)
 
-	for {
-		iterations++
-
-		if temperature <= 0 {
-			fmt.Println("\033[32mDone!\033[0m")
-			break
-		}
-
-		swapSourceIdx := bestCube.GetRandomIdx()
-		swapTargetIdx := bestCube.GetRandomIdx()
-
+	if initialScore != 0 {
 		for {
-			if swapSourceIdx != swapTargetIdx {
+			iterations++
+
+			if temperature <= 0 {
+				fmt.Println("\033[32mDone!\033[0m")
 				break
 			}
-			swapTargetIdx = bestCube.GetRandomIdx()
-		}
 
-		newCube := bestCube.Copy()
-		newCube.SwapValues(swapSourceIdx, swapTargetIdx)
+			swapSourceIdx := bestCube.GetRandomIdx()
+			swapTargetIdx := bestCube.GetRandomIdx()
 
-		if newCube.ObjectiveFunction() == 0 {
-			fmt.Println("\033[32mDone!\033[0m")
-			bestCube = newCube
-			objectiveFunctions = append(objectiveFunctions, bestCube.ObjectiveFunction())
-			break
-		}
+			for {
+				if swapSourceIdx != swapTargetIdx {
+					break
+				}
+				swapTargetIdx = bestCube.GetRandomIdx()
+			}
 
-		deltaE := newCube.ObjectiveFunction() - bestCube.ObjectiveFunction()
+			newCube := bestCube.Copy()
+			newCube.SwapValues(swapSourceIdx, swapTargetIdx)
 
-		if deltaE > 0 {
-			deltaEValues = append(deltaEValues, 1)
-			bestCube = newCube
-			indexChange = append(indexChange, [][]int{swapSourceIdx[:], swapTargetIdx[:]})
-		} else {
-			countLocalOptimum++
-			deltaEValues = append(deltaEValues, deltaE)
-			probability := math.Exp(float64(deltaE) / temperature)
-			goDown := probability > 0.9
+			if newCube.ObjectiveFunction() == 0 {
+				fmt.Println("\033[32mDone!\033[0m")
+				bestCube = newCube
+				objectiveFunctions = append(objectiveFunctions, bestCube.ObjectiveFunction())
+				break
+			}
+
+			deltaE := newCube.ObjectiveFunction() - bestCube.ObjectiveFunction()
+
+			if deltaE > 0 {
+				deltaEValues = append(deltaEValues, 1)
+				bestCube = newCube
+				indexChange = append(indexChange, [][]int{swapSourceIdx[:], swapTargetIdx[:]})
+			} else {
+				countLocalOptimum++
+				deltaEValues = append(deltaEValues, deltaE)
+				probability := math.Exp(float64(deltaE) / temperature)
+				goDown := probability > 0.9
 
 			if goDown {
 				indexChange = append(indexChange, [][]int{swapSourceIdx[:], swapTargetIdx[:]})
@@ -72,8 +74,9 @@ func SimulatedAnnealing(cube *MagicCube.MagicCube) (MagicCube.Response, error) {
 			}
 		}
 
-		objectiveFunctions = append(objectiveFunctions, bestCube.ObjectiveFunction())
-		temperature -= 0.001
+			objectiveFunctions = append(objectiveFunctions, bestCube.ObjectiveFunction())
+			temperature -= 0.001
+		}
 	}
 
 	elapsed := time.Since(start)
