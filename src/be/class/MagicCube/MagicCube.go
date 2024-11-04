@@ -17,6 +17,7 @@ type Response struct {
 	IndexChange        [][][]int
 	ObjectiveFunctions []int
 	ExecutionTimeInMS  int
+	CubeStates         [][][][]int
 
 	//Steepest Ascent, Sideways Move HC, Simulated Annealing
 	Iterations int
