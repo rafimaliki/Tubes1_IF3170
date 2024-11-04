@@ -4,7 +4,7 @@ import ControlPanel from "@/components/react/ControlPanel/_ControlPanel";
 import ReplayPanel from "@/components/react/ReplayPanel/_ReplayPanel";
 import MagicCube from "@/class/MagicCube";
 import Result from "@/class/Result";
-import LineChart from "@/components/chartjs/LineChart";
+import Stats from "@/components/react/Stats/_Stats";
 
 const App = () => {
   const [separate, setSeparate] = useState<{
@@ -52,12 +52,12 @@ const App = () => {
         />
       </div>
 
-      {result ? (
+      {true ? (
         <div
           ref={statsRef}
           className="w-full h-screen flex items-center justify-center "
         >
-          <LineChart result={result} />
+          <Stats result={result} />
         </div>
       ) : null}
     </div>
