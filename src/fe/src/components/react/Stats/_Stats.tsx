@@ -26,16 +26,16 @@ const Stats = ({ result }: StatsProps) => {
 
       <div className="w-[80%] h-[20%] bg-white mt-2 rounded-md shadow-lg p-6">
         <p className="w-full text-center">Statistics</p>
-        <div>
+        <div className="h-[90%] overflow-x-auto">
           {result?.ExecutionTimeInMS ? (
             <DataLabel
               label="Execution Time"
-              value={result.ExecutionTimeInMS}
+              value={`${result.ExecutionTimeInMS} ms`}
             />
           ) : null}
           {result?.ObjectiveFunctions ? (
             <DataLabel
-              label="Objective Functions"
+              label="Final Score"
               value={
                 result.ObjectiveFunctions[result.ObjectiveFunctions.length - 1]
               }
@@ -43,6 +43,18 @@ const Stats = ({ result }: StatsProps) => {
           ) : null}
           {result?.LocalOptimum ? (
             <DataLabel label="Local Optimum" value={result.LocalOptimum} />
+          ) : null}
+          {result?.Iterations ? (
+            <DataLabel label="Iterations" value={result.Iterations} />
+          ) : null}
+          {result?.RestartCount ? (
+            <DataLabel label="Restart Count" value={result.RestartCount} />
+          ) : null}
+          {result?.RestartPerIteration ? (
+            <DataLabel
+              label="Restart Per Iteration"
+              value={result.RestartPerIteration.join(", ")}
+            />
           ) : null}
         </div>
       </div>

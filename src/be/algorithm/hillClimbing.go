@@ -36,7 +36,7 @@ func SteepestAscentHillClimbing(cube *MagicCube.MagicCube) (MagicCube.Response, 
 			}
 		}
 		fmt.Println(maxObjectiveValue)
-		iter++
+
 		if currentObjectiveValue >= maxObjectiveValue {
 			break
 		}
@@ -53,7 +53,7 @@ func SteepestAscentHillClimbing(cube *MagicCube.MagicCube) (MagicCube.Response, 
 
 		swapOne := MagicCube.IntToThreeDee(randomPair[0])
 		swapTwo := MagicCube.IntToThreeDee(randomPair[1])
-
+		iter++
 		indexChange = append(indexChange, [][]int{swapOne[:], swapTwo[:]})
 		objectiveFunctions = append(objectiveFunctions, maxObjectiveValue)
 		cube.SwapValues(swapOne, swapTwo)
@@ -103,7 +103,6 @@ func SidewaysMoveHillClimbing(cube *MagicCube.MagicCube, maxOcc int) (MagicCube.
 		}
 		fmt.Println(maxObjectiveValue)
 		countOcc++
-		iter++
 		if currentObjectiveValue > maxObjectiveValue || countOcc > maxOcc {
 			break
 		}
@@ -127,6 +126,7 @@ func SidewaysMoveHillClimbing(cube *MagicCube.MagicCube, maxOcc int) (MagicCube.
 			indexChange = append(indexChange, [][]int{swapOne[:], swapTwo[:]})
 			cube.SwapValues(swapOne, swapTwo)
 			cubeStates = append(cubeStates, cube.Buffer)
+			iter++
 		}
 	}
 	fmt.Println("Objective Function: ", cube.ObjectiveFunction())

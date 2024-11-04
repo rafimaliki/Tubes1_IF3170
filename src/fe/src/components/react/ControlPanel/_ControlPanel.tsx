@@ -103,7 +103,11 @@ const ControlPanel = ({
           ) : null}
         </div>
         <div className="flex items-center justify-center mb-3">
-          <RandomizeButton setMagicCube={setMagicCube} />
+          <RandomizeButton
+            setMagicCube={setMagicCube}
+            setResult={setResult}
+            setHighlightIndex={setHighlightIndex}
+          />
           <ButtonSolve
             selectedAlgorithm={selectedAlgorithm}
             magicCube={magicCube}
