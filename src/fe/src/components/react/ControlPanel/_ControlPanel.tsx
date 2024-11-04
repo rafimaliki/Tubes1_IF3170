@@ -32,7 +32,7 @@ const ControlPanel = ({
 
   return (
     <div
-      className={`flex flex-col justify-start items-center absolute z-50 right-2 transition-transform duration-500 w-56 h-96 bg-white border rounded-md shadow-2xl top-1/2 transform -translate-y-1/2 ${
+      className={`flex flex-col justify-start items-center absolute z-20 right-2 transition-transform duration-500 w-56 h-96 bg-white border rounded-md shadow-2xl top-1/2 transform -translate-y-1/2 ${
         isHidden ? "translate-x-48" : ""
       }`}
     >
