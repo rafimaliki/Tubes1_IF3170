@@ -5,6 +5,7 @@ import ReplayPanel from "@/components/react/ReplayPanel/_ReplayPanel";
 import MagicCube from "@/class/MagicCube";
 import Result from "@/class/Result";
 import Stats from "@/components/react/Stats/_Stats";
+import Loader from "@/components/react/Loader";
 
 const App = () => {
   const [separate, setSeparate] = useState<{
@@ -20,6 +21,7 @@ const App = () => {
   const [magicCube, setMagicCube] = useState(new MagicCube(5, false));
   const [result, setResult] = useState<Result | null>(null);
   const [highlightIndex, setHighlightIndex] = useState<number[][] | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const statsRef = useRef<HTMLDivElement>(null);
 
@@ -29,6 +31,7 @@ const App = () => {
         result ? 2 : 1
       }00vh] bg-gray-200  `}
     >
+      {isLoading ? <Loader /> : null}
       <div className="w-full h-screen overflow-hidden relative  ">
         <ControlPanel
           separate={separate}
@@ -37,6 +40,7 @@ const App = () => {
           setMagicCube={setMagicCube}
           setResult={setResult}
           setHighlightIndex={setHighlightIndex}
+          setIsLoading={setIsLoading}
         />
         <ReplayPanel
           magicCube={magicCube}
