@@ -51,6 +51,7 @@ func SimulatedAnnealing(cube *MagicCube.MagicCube) (MagicCube.Response, error) {
 				fmt.Println("\033[32mDone!\033[0m")
 				bestCube = newCube
 				objectiveFunctions = append(objectiveFunctions, bestCube.ObjectiveFunction())
+				cubeStates = append(cubeStates, bestCube.Buffer)
 				break
 			}
 
