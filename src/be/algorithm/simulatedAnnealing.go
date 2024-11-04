@@ -64,8 +64,8 @@ func SimulatedAnnealing(cube *MagicCube.MagicCube) (MagicCube.Response, error) {
 
 			if goDown {
 				indexChange = append(indexChange, [][]int{swapSourceIdx[:], swapTargetIdx[:]})
-				fmt.Println("Go Down")
-				fmt.Println("Objective Function: ", bestCube.ObjectiveFunction())
+				// fmt.Println("Go Down")
+				// fmt.Println("Objective Function: ", bestCube.ObjectiveFunction())
 				bestCube = newCube
 			} else {
 				indexChange = append(indexChange, [][]int{{0, 0, 0}, {0, 0, 0}})
@@ -79,7 +79,7 @@ func SimulatedAnnealing(cube *MagicCube.MagicCube) (MagicCube.Response, error) {
 	elapsed := time.Since(start)
 	executionTimeInMS := int(elapsed.Milliseconds())
 
-	fmt.Println("Score: ", bestCube.ObjectiveFunction())
+	// fmt.Println("Score: ", bestCube.ObjectiveFunction())
 
 	Result := MagicCube.Response{
 		Buffer:             bestCube.Buffer,
