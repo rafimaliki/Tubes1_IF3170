@@ -4,6 +4,7 @@ import (
 	"be/class/MagicCube"
 	"fmt"
 	"math"
+	"time"
 )
 
 type Response struct {
@@ -13,6 +14,7 @@ type Response struct {
 	LocalOptimum       int
 	Iterations         int
 	DeltaE             []int
+	ExecutionTimeInMS  int
 }
 
 func SimulatedAnnealing(cube *MagicCube.MagicCube) (Response, error) {
@@ -28,6 +30,8 @@ func SimulatedAnnealing(cube *MagicCube.MagicCube) (Response, error) {
 	countLocalOptimum := 0
 	deltaEValues := []int{}
 	iterations := 0
+
+	start := time.Now()
 
 	for {
 		iterations++
@@ -83,6 +87,9 @@ func SimulatedAnnealing(cube *MagicCube.MagicCube) (Response, error) {
 		temperature -= 0.001
 	}
 
+	elapsed := time.Since(start)
+	executionTimeInMS := int(elapsed.Milliseconds())
+
 	Result := Response{
 		Buffer:             bestCube.Buffer,
 		IndexChange:        indexChange,
@@ -90,6 +97,7 @@ func SimulatedAnnealing(cube *MagicCube.MagicCube) (Response, error) {
 		LocalOptimum:       countLocalOptimum,
 		Iterations:         iterations,
 		DeltaE:             deltaEValues,
+		ExecutionTimeInMS:  executionTimeInMS,
 	}
 
 	return Result, nil
