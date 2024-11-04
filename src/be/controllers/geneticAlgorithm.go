@@ -5,6 +5,7 @@ import (
 	"be/class/MagicCube"
 	"encoding/json"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -12,8 +13,9 @@ import (
 func GeneticAlgorithm(c *gin.Context) {
     
     cubeStr := c.Query("cube")
-	startpopulation := 10000
-	iteration := 5
+	startpopulation, _ := strconv.Atoi(c.Query("startPopulation"))
+	iteration, _ := strconv.Atoi(c.Query("maxIteration"))
+
 
 	magicCube := MagicCube.New()
 	err := json.Unmarshal([]byte(cubeStr), &magicCube.Buffer)

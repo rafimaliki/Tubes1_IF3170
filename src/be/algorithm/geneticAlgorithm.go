@@ -13,7 +13,7 @@ func GeneticAlgorithm(cube *MagicCube.MagicCube, startpopulation int, iteration 
     idx := 0
     start := time.Now()
     population := [](MagicCube.MagicCube){}    
-    for i := 0; i < 10000; i++ {
+    for i := 0; i < startpopulation; i++ {
         cube.Shuffle()
         newcube := MagicCube.MagicCube{}
         
@@ -33,7 +33,7 @@ func GeneticAlgorithm(cube *MagicCube.MagicCube, startpopulation int, iteration 
     }
     
     
-    for i := 0; i < 1; i++ {
+    for i := 0; i < iteration; i++ {
         newpopulation := [](MagicCube.MagicCube){}
         listfitness := []float64{}
         listprobability := []float64{}
@@ -78,13 +78,14 @@ func GeneticAlgorithm(cube *MagicCube.MagicCube, startpopulation int, iteration 
 
         totalscore := 0
         score := -1000000
-        for i:=0; i< len(population); i++ {
-            if score < population[i].Score {
-                score = population[i].Score
-                idx = i
+        for j:=0; j< len(population); j++ {
+            if score < population[j].Score {
+                score = population[j].Score
+                idx = j
             }
-            totalscore += population[i].Score
-        }       
+            totalscore += population[j].Score
+        }
+        response.CubeStates = append(response.CubeStates, population[idx].Buffer)       
         response.ObjectiveFunctions = append(response.ObjectiveFunctions, score)
         response.ObjectiveFunctionsMean = append(response.ObjectiveFunctionsMean, totalscore/len(population))
 
@@ -100,7 +101,8 @@ func GeneticAlgorithm(cube *MagicCube.MagicCube, startpopulation int, iteration 
     fmt.Println("\033[32mGenetic Algorithm\033[0m")
 
     response.Buffer = population[idx].Buffer
-    // fmt.Println("Buffer: ", response.Buffer[0][1])
+    // fmt.Println("Buffer: ", response.Buffer[0][0])
+    // fmt.Println("Objective Functions: ", response.ObjectiveFunctions)
     // fmt.Println("Execution Time: ", response.ExecutionTimeInMS, "ms")
 	
     return response, nil 
