@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-
+import { useState, useRef } from "react";
 import Scene from "@/components/threejs/Scene";
 import ControlPanel from "@/components/react/ControlPanel/_ControlPanel";
 import ReplayPanel from "@/components/react/ReplayPanel/_ReplayPanel";
 import MagicCube from "@/class/MagicCube";
 import Result from "@/class/Result";
+import LineChart from "@/components/chartjs/LineChart";
 
-const App: React.FC = () => {
+const App = () => {
   const [separate, setSeparate] = useState<{
     x: boolean;
     y: boolean;
@@ -21,9 +21,15 @@ const App: React.FC = () => {
   const [result, setResult] = useState<Result | null>(null);
   const [highlightIndex, setHighlightIndex] = useState<number[][] | null>(null);
 
+  const statsRef = useRef<HTMLDivElement>(null);
+
   return (
-    <div className="flex items-center justify-center w-full h-screen bg-gray-200 overflow-hidden relative">
-      <div className="w-full h-full">
+    <div
+      className={`flex flex-col items-center justify-center w-full h-[${
+        result ? 2 : 1
+      }00vh] bg-gray-200  `}
+    >
+      <div className="w-full h-screen overflow-hidden relative  ">
         <ControlPanel
           separate={separate}
           setSeparate={setSeparate}
@@ -37,6 +43,7 @@ const App: React.FC = () => {
           setMagicCube={setMagicCube}
           result={result}
           setHighlightIndex={setHighlightIndex}
+          statsRef={statsRef}
         />
         <Scene
           separate={separate}
@@ -44,6 +51,15 @@ const App: React.FC = () => {
           highlightIndex={highlightIndex}
         />
       </div>
+
+      {result ? (
+        <div
+          ref={statsRef}
+          className="w-full h-screen flex items-center justify-center "
+        >
+          <LineChart result={result} />
+        </div>
+      ) : null}
     </div>
   );
 };

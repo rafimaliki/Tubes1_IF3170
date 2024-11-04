@@ -30,6 +30,20 @@ const MagicCube3D = ({
     for (let y = 0; y < size; y++) {
       for (let z = 0; z < size; z++) {
         const number = numbersMatrix[x][y][z];
+
+        let isHighlight =
+          (highlightIndex &&
+            highlightIndex[0][0] !== highlightIndex[1][0] &&
+            highlightIndex[0][1] !== highlightIndex[1][1] &&
+            highlightIndex[0][0] !== highlightIndex[1][0] &&
+            ((x === highlightIndex[0][0] &&
+              y === highlightIndex[0][1] &&
+              z === highlightIndex[0][2]) ||
+              (x === highlightIndex[1][0] &&
+                y === highlightIndex[1][1] &&
+                z === highlightIndex[1][2]))) ||
+          false;
+
         cubes.push(
           <Cube3D
             key={`${x}-${y}-${z}`}
@@ -39,16 +53,7 @@ const MagicCube3D = ({
               (size - x - offSet) * offsetZ,
             ]}
             number={number}
-            highlight={
-              (highlightIndex &&
-                ((x === highlightIndex[0][0] &&
-                  y === highlightIndex[0][1] &&
-                  z === highlightIndex[0][2]) ||
-                  (x === highlightIndex[1][0] &&
-                    y === highlightIndex[1][1] &&
-                    z === highlightIndex[1][2]))) ||
-              false
-            }
+            highlight={isHighlight}
           />
         );
       }

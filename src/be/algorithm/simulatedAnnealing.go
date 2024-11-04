@@ -18,10 +18,12 @@ func SimulatedAnnealing(cube *MagicCube.MagicCube) (MagicCube.Response, error) {
 	countLocalOptimum := 0
 	deltaEValues := []int{}
 	iterations := 0
+	cubeStates := [][][][]int{}
 
 	start := time.Now()
 	initialScore := bestCube.ObjectiveFunction()
 	objectiveFunctions = append(objectiveFunctions, initialScore)
+	cubeStates = append(cubeStates, bestCube.Buffer)
 
 	if initialScore != 0 {
 		for {
@@ -49,6 +51,7 @@ func SimulatedAnnealing(cube *MagicCube.MagicCube) (MagicCube.Response, error) {
 				fmt.Println("\033[32mDone!\033[0m")
 				bestCube = newCube
 				objectiveFunctions = append(objectiveFunctions, bestCube.ObjectiveFunction())
+				cubeStates = append(cubeStates, bestCube.Buffer)
 				break
 			}
 
@@ -66,8 +69,8 @@ func SimulatedAnnealing(cube *MagicCube.MagicCube) (MagicCube.Response, error) {
 
 				if goDown {
 					indexChange = append(indexChange, [][]int{swapSourceIdx[:], swapTargetIdx[:]})
-					fmt.Println("Go Down")
-					fmt.Println("Objective Function: ", bestCube.ObjectiveFunction())
+					// fmt.Println("Go Down")
+					// fmt.Println("Objective Function: ", bestCube.ObjectiveFunction())
 					bestCube = newCube
 				} else {
 					indexChange = append(indexChange, [][]int{{0, 0, 0}, {0, 0, 0}})
@@ -75,6 +78,7 @@ func SimulatedAnnealing(cube *MagicCube.MagicCube) (MagicCube.Response, error) {
 			}
 
 			objectiveFunctions = append(objectiveFunctions, bestCube.ObjectiveFunction())
+			cubeStates = append(cubeStates, bestCube.Buffer)
 			temperature -= 0.001
 		}
 	}
@@ -82,12 +86,13 @@ func SimulatedAnnealing(cube *MagicCube.MagicCube) (MagicCube.Response, error) {
 	elapsed := time.Since(start)
 	executionTimeInMS := int(elapsed.Milliseconds())
 
-	fmt.Println("Score: ", bestCube.ObjectiveFunction())
+	// fmt.Println("Score: ", bestCube.ObjectiveFunction())
 
 	Result := MagicCube.Response{
 		Buffer:             bestCube.Buffer,
 		IndexChange:        indexChange,
 		ObjectiveFunctions: objectiveFunctions,
+		CubeStates:         cubeStates,
 		LocalOptimum:       countLocalOptimum,
 		Iterations:         iterations,
 		DeltaE:             deltaEValues,

@@ -4,12 +4,14 @@ import MagicCube from "@/class/MagicCube";
 import Result from "@/class/Result";
 import IterationSlider from "./IterationSlider";
 import Config from "@/class/Config";
+import { smoothScroll } from "@/js/smoothScroll";
 
 interface ReplayPanelProps {
   magicCube: MagicCube;
   setMagicCube: SetState<MagicCube>;
   result: Result | null;
   setHighlightIndex: SetState<number[][] | null>;
+  statsRef: React.RefObject<HTMLDivElement>;
 }
 
 const ReplayPanel = ({
@@ -17,6 +19,7 @@ const ReplayPanel = ({
   setMagicCube,
   result,
   setHighlightIndex,
+  statsRef,
 }: ReplayPanelProps) => {
   const [isHidden, setIsHidden] = useState(false);
   const [iter, setIter] = useState(0);
@@ -102,7 +105,7 @@ const ReplayPanel = ({
 
   return (
     <div
-      className={`flex flex-col justify-start items-center absolute z-40 duration-500 w-[80%] h-20 bg-white border rounded-md shadow-2xl 
+      className={`flex flex-col justify-start items-center absolute z-20 duration-500 w-[80%] h-20 bg-white border rounded-md shadow-2xl 
       left-1/2 bottom-2 transform -translate-x-1/2 transition-all
       ${isHidden ? "translate-y-12" : ""}
       ${isVisible ? "opacity-100" : "opacity-0"}`}
@@ -110,7 +113,7 @@ const ReplayPanel = ({
       <div className="w-full">
         <button
           onClick={() => setIsHidden((prev) => !prev)}
-          className="absolute left-2 top-2 z-50"
+          className="absolute left-2 top-2 z-30"
         >
           <p
             className={`text-neutral-300 hover:text-neutral-500 transition-transform duration-500 font-extrabold px-2 rounded-lg hover:bg-neutral-200 ${
@@ -125,11 +128,17 @@ const ReplayPanel = ({
             isHidden ? "opacity-0" : "opacity-100"
           }`}
         >
-          <p className="absolute left-1/2 transform -translate-x-1/2 font-bold font-sans cursor-default text-lg">
-            Iteration: {iter}
+          <p className="ml-10 font-bold font-sans cursor-default text-lg">
+            Iteration: {iter}; Score: {result?.ObjectiveFunctions[iter]}
           </p>
 
           <div className="flex gap-2 ml-auto mr-4">
+            <button
+              onClick={() => smoothScroll(statsRef)}
+              className="btn-replay ml-10"
+            >
+              Show Statistics
+            </button>
             <button onClick={handlePlay} className="btn-replay">
               {playInterval ? "Stop" : "Play"}
             </button>
