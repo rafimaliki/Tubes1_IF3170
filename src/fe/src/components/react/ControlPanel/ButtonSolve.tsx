@@ -3,6 +3,8 @@ import MagicCube from "@/class/MagicCube";
 import Result from "@/class/Result";
 import SetState from "@/class/Types";
 import axios from "axios";
+import { max } from "three/webgpu";
+import Config from "@/class/Config";
 
 interface ButtonSolveProps {
   selectedAlgorithm: string;
@@ -10,6 +12,10 @@ interface ButtonSolveProps {
   setMagicCube: SetState<MagicCube>;
   setResult: SetState<Result | null>;
   setHighlightIndex: SetState<number[][] | null>;
+  maxSideways: number;
+  maxRestart: number;
+  startPopulation: number;
+  maxIteration: number;
 }
 
 const SolveButton = ({
@@ -18,12 +24,38 @@ const SolveButton = ({
   setMagicCube,
   setResult,
   setHighlightIndex,
+  maxSideways,
+  maxRestart,
+  startPopulation,
+  maxIteration,
 }: ButtonSolveProps) => {
   const handleClick = () => {
     console.log("Solving with", selectedAlgorithm);
 
     const params = new URLSearchParams();
     params.append("cube", JSON.stringify(magicCube.getBuffer()));
+
+    if (selectedAlgorithm === "sideways-move-hill-climbing") {
+      maxSideways =
+        maxSideways && maxSideways > 0 ? maxSideways : Config.maxSideways;
+      params.append("maxSideways", maxSideways.toString());
+    }
+
+    if (selectedAlgorithm === "random-restart-hill-climbing") {
+      maxRestart =
+        maxRestart && maxRestart > 0 ? maxRestart : Config.maxRestart;
+      params.append("maxRestart", maxRestart.toString());
+    }
+    if (selectedAlgorithm === "genetic-algorithm") {
+      startPopulation =
+        startPopulation && startPopulation > 0
+          ? startPopulation
+          : Config.startPopulation;
+      maxIteration =
+        maxIteration && maxIteration > 0 ? maxIteration : Config.maxIteration;
+      params.append("startPopulation", startPopulation.toString());
+      params.append("maxIteration", maxIteration.toString());
+    }
 
     setResult(null);
 
@@ -32,7 +64,11 @@ const SolveButton = ({
       .then((response) => {
         // console.log("Response:", response.data);
         setResult(
-          new Result({ ...response.data.result, MagicCube: magicCube })
+          new Result({
+            ...response.data.result,
+            MagicCube: magicCube,
+            Algorithm: selectedAlgorithm,
+          })
         );
 
         const newMagicCube = new MagicCube(magicCube.getSize(), false);

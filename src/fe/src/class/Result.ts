@@ -7,17 +7,20 @@ class Result {
   OriginalCube: MagicCube;
   MagicCubes: MagicCube[] | null = null;
   MaxIteration: number;
+  Algorithm: string;
 
   constructor({
     Buffer,
     IndexChange,
     ObjectiveFunctions,
     MagicCube,
+    Algorithm,
   }: {
     Buffer: number[][][];
     IndexChange: number[][][];
     ObjectiveFunctions: number[];
     MagicCube: MagicCube;
+    Algorithm: string;
   }) {
     this.Buffer = Buffer;
     this.IndexChange = IndexChange;
@@ -25,6 +28,7 @@ class Result {
     this.OriginalCube = MagicCube;
     this.MagicCubes = null;
     this.MaxIteration = IndexChange.length;
+    this.Algorithm = Algorithm;
 
     this.initMagicCubes();
 

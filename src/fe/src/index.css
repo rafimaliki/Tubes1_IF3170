@@ -87,7 +87,7 @@ body {
 }
 
 .btn {
-  @apply bg-blue-500 hover:bg-blue-950 text-white p-1 w-28 m-2 rounded-md font-semibold transition-colors duration-300;
+  @apply bg-blue-500 hover:bg-blue-950 text-white p-1 w-fit px-[0.9rem] m-2 rounded-md font-semibold transition-colors duration-300;
 }
 
 .btn-toggle {

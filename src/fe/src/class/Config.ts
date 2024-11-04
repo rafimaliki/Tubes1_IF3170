@@ -14,6 +14,11 @@ class Config {
   ];
 
   static playbackSpeeds: number[] = [0.25, 0.5, 1, 2, 4, 8, 16];
+
+  static maxSideways: number = 50;
+  static maxRestart: number = 5;
+  static startPopulation: number = 10000;
+  static maxIteration: number = 5;
 }
 
 export default Config;
