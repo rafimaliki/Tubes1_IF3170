@@ -25,7 +25,7 @@ const Stats = ({ result }: StatsProps) => {
       </div>
 
       <div className="w-[80%] h-[20%] bg-white mt-2 rounded-md shadow-lg p-6">
-        <p className="w-full text-center">Statistics</p>
+        <p className="w-full text-center font-extrabold">Statistics</p>
         <div className="h-[90%] overflow-x-auto">
           {result?.ExecutionTimeInMS ? (
             <DataLabel
@@ -45,7 +45,7 @@ const Stats = ({ result }: StatsProps) => {
             <DataLabel label="Local Optimum" value={result.LocalOptimum} />
           ) : null}
           {result?.Iterations ? (
-            <DataLabel label="Iterations" value={result.Iterations} />
+            <DataLabel label="Iterations" value={result.Iterations - 1} />
           ) : null}
           {result?.RestartCount ? (
             <DataLabel label="Restart Count" value={result.RestartCount} />
