@@ -7,8 +7,27 @@ import (
 
 type MagicCube struct {
 	Size   int
-    Score  int
+	Score  int
 	Buffer [][][]int
+}
+
+type Response struct {
+	// semua fungsi
+	Buffer             [][][]int
+	IndexChange        [][][]int
+	ObjectiveFunctions []int
+	ExecutionTimeInMS  int
+
+	//Steepest Ascent, Sideways Move HC, Simulated Annealing
+	Iterations int
+
+	// Random Restart HC
+	RestartCount        int
+	RestartPerIteration []int
+
+	// simulated annealing
+	LocalOptimum int
+	DeltaE       []int
 }
 
 func New(size ...int) *MagicCube {
@@ -202,6 +221,6 @@ func (mc *MagicCube) SwapValues(idx1 [3]int, idx2 [3]int) {
 	mc.Buffer[idx2[0]][idx2[1]][idx2[2]] = temp
 }
 
-func ( mc *MagicCube) SetScore(score int) {
+func (mc *MagicCube) SetScore(score int) {
 	mc.Score = score
 }
