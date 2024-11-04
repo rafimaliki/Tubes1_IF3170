@@ -5,10 +5,10 @@ interface Algorithm {
 
 class Config {
   static algorithms: Algorithm[] = [
-    { endpoint: "hillclimbing-steepest", name: "HC-Steepest" },
-    { endpoint: "hillclimbing-sideways", name: "HC-Sideways Move" },
-    { endpoint: "hillclimbing-randomrestart", name: "HC-Random Restart" },
-    { endpoint: "hillclimbing-stochastic", name: "HC-Stochastic" },
+    { endpoint: "steepest-ascent-hill-climbing", name: "HC-Steepest" },
+    { endpoint: "sideways-move-hill-climbing", name: "HC-Sideways Move" },
+    { endpoint: "random-restart-hill-climbing", name: "HC-Random Restart" },
+    { endpoint: "stochastic-hill-climbing", name: "HC-Stochastic" },
     { endpoint: "simulated-annealing", name: "Simulated Annealing" },
     { endpoint: "genetic-algorithm", name: "Genetic Algorithm" },
   ];

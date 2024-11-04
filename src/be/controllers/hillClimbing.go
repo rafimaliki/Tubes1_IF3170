@@ -44,7 +44,7 @@ func SidewaysMoveHillClimbing(c *gin.Context) {
 		return
 	}
 
-	result, err := algorithm.SidewaysMoveHillClimbing(magicCube)
+	result, err := algorithm.SidewaysMoveHillClimbing(magicCube, 100)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -67,7 +67,7 @@ func RandomRestartHillClimbing(c *gin.Context) {
 		return
 	}
 
-	result, err := algorithm.RandomRestartHillClimbing(magicCube)
+	result, err := algorithm.RandomRestartHillClimbing(magicCube, 10)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

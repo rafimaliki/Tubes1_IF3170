@@ -17,6 +17,7 @@ type Response struct {
 	IndexChange        [][][]int
 	ObjectiveFunctions []int
 	ExecutionTimeInMS  int
+	CubeStates         [][][][]int
 
 	//Steepest Ascent, Sideways Move HC, Simulated Annealing
 	Iterations int
@@ -63,7 +64,6 @@ func (mc *MagicCube) Print() {
 }
 
 func (mc *MagicCube) Shuffle() {
-
 	values := make([]int, mc.Size*mc.Size*mc.Size)
 	for i := 0; i < len(values); i++ {
 		values[i] = i + 1

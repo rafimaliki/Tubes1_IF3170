@@ -11,13 +11,18 @@ import (
 // 	pair[[2]int{i,j}] =
 // }
 
-func SteepestAscentHillClimbing(cube *MagicCube.MagicCube) (Response, error) {
+func SteepestAscentHillClimbing(cube *MagicCube.MagicCube) (MagicCube.Response, error) {
 	start := time.Now()
 	pairs := make(map[[2]int]int)
 	indexChange := [][][]int{}
+	objectiveFunctions := []int{}
+	currentObjectiveValue := cube.ObjectiveFunction()
+	objectiveFunctions = append(objectiveFunctions, currentObjectiveValue)
+	maxObjectiveValue := currentObjectiveValue
+	cubeStates := [][][][]int{}
+	cubeStates = append(cubeStates, cube.Buffer)
+	iter := 0
 	for {
-		currentObjectiveValue := cube.ObjectiveFunction()
-		maxObjectiveValue := currentObjectiveValue
 		res := 0
 		for i := 0; i < 125; i++ {
 			for j := i + 1; j < 125; j++ {
@@ -31,6 +36,7 @@ func SteepestAscentHillClimbing(cube *MagicCube.MagicCube) (Response, error) {
 			}
 		}
 		fmt.Println(maxObjectiveValue)
+		iter++
 		if currentObjectiveValue >= maxObjectiveValue {
 			break
 		}
@@ -49,26 +55,39 @@ func SteepestAscentHillClimbing(cube *MagicCube.MagicCube) (Response, error) {
 		swapTwo := MagicCube.IntToThreeDee(randomPair[1])
 
 		indexChange = append(indexChange, [][]int{swapOne[:], swapTwo[:]})
+		objectiveFunctions = append(objectiveFunctions, maxObjectiveValue)
 		cube.SwapValues(swapOne, swapTwo)
+		cubeStates = append(cubeStates, cube.Buffer)
+		currentObjectiveValue = maxObjectiveValue
 	}
 	fmt.Println("Objective Function: ", cube.ObjectiveFunction())
 	elapsed := time.Since(start)
+	executionTimeInMS := int(elapsed.Milliseconds())
 	fmt.Println("time: ", elapsed)
-	Result := Response{
-		Buffer:      cube.Buffer,
-		IndexChange: indexChange,
+	Result := MagicCube.Response{
+		Buffer:             cube.Buffer,
+		IndexChange:        indexChange,
+		ObjectiveFunctions: objectiveFunctions,
+		ExecutionTimeInMS:  executionTimeInMS,
+		CubeStates:         cubeStates,
+		Iterations:         iter,
 	}
 	return Result, nil
 }
 
-func SidewaysMoveHillClimbing(cube *MagicCube.MagicCube) (Response, error) {
+func SidewaysMoveHillClimbing(cube *MagicCube.MagicCube, maxOcc int) (MagicCube.Response, error) {
 	start := time.Now()
 	pairs := make(map[[2]int]int)
 	countOcc := 0
+	iter := 0
 	indexChange := [][][]int{}
+	objectiveFunctions := []int{}
+	currentObjectiveValue := cube.ObjectiveFunction()
+	objectiveFunctions = append(objectiveFunctions, currentObjectiveValue)
+	maxObjectiveValue := currentObjectiveValue
+	cubeStates := [][][][]int{}
+	cubeStates = append(cubeStates, cube.Buffer)
 	for {
-		currentObjectiveValue := cube.ObjectiveFunction()
-		maxObjectiveValue := currentObjectiveValue
 		res := 0
 		for i := 0; i < 125; i++ {
 			for j := i + 1; j < 125; j++ {
@@ -84,7 +103,8 @@ func SidewaysMoveHillClimbing(cube *MagicCube.MagicCube) (Response, error) {
 		}
 		fmt.Println(maxObjectiveValue)
 		countOcc++
-		if currentObjectiveValue > maxObjectiveValue || countOcc > 100 {
+		iter++
+		if currentObjectiveValue > maxObjectiveValue || countOcc > maxOcc {
 			break
 		}
 
@@ -102,38 +122,53 @@ func SidewaysMoveHillClimbing(cube *MagicCube.MagicCube) (Response, error) {
 
 			swapOne := MagicCube.IntToThreeDee(randomPair[0])
 			swapTwo := MagicCube.IntToThreeDee(randomPair[1])
+
+			objectiveFunctions = append(objectiveFunctions, maxObjectiveValue)
 			indexChange = append(indexChange, [][]int{swapOne[:], swapTwo[:]})
 			cube.SwapValues(swapOne, swapTwo)
+			cubeStates = append(cubeStates, cube.Buffer)
 		}
 	}
 	fmt.Println("Objective Function: ", cube.ObjectiveFunction())
 	elapsed := time.Since(start)
+	executionTimeInMS := int(elapsed.Milliseconds())
 	fmt.Println("time: ", elapsed)
-	Result := Response{
-		Buffer:      cube.Buffer,
-		IndexChange: indexChange,
+	Result := MagicCube.Response{
+		Buffer:             cube.Buffer,
+		IndexChange:        indexChange,
+		ObjectiveFunctions: objectiveFunctions,
+		ExecutionTimeInMS:  executionTimeInMS,
+		CubeStates:         cubeStates,
+		Iterations:         iter,
 	}
 	return Result, nil
 }
 
-func RandomRestartHillClimbing(cube *MagicCube.MagicCube) (Response, error) {
+func RandomRestartHillClimbing(cube *MagicCube.MagicCube, numOfRestart int) (MagicCube.Response, error) {
 	start := time.Now()
-	maxObjectiveValue := cube.ObjectiveFunction()
-	originalCube := cube.Copy()
 	pairs := make(map[[2]int]int)
 	indexChange := [][][]int{}
-	iter := 0
+	objectiveFunctions := []int{}
+	currentObjectiveValue := cube.ObjectiveFunction()
+	objectiveFunctions = append(objectiveFunctions, currentObjectiveValue)
+	maxObjectiveValue := currentObjectiveValue
+	cubeStates := [][][][]int{}
+	cubeStates = append(cubeStates, cube.Buffer)
+	restartCount := 0
+	iteration := 0
+	restartPerIteration := []int{}
+
 	for {
+		fmt.Println(restartCount)
 		for {
 			currentObjectiveValue := cube.ObjectiveFunction()
 			maxObjectiveValue := currentObjectiveValue
 			res := 0
-			tempCube := cube.Copy()
 			for i := 0; i < 125; i++ {
 				for j := i + 1; j < 125; j++ {
-					tempCube.SwapValues(MagicCube.IntToThreeDee(i), MagicCube.IntToThreeDee(j))
-					res = tempCube.ObjectiveFunction()
-					tempCube.SwapValues(MagicCube.IntToThreeDee(i), MagicCube.IntToThreeDee(j))
+					cube.SwapValues(MagicCube.IntToThreeDee(i), MagicCube.IntToThreeDee(j))
+					res = cube.ObjectiveFunction()
+					cube.SwapValues(MagicCube.IntToThreeDee(i), MagicCube.IntToThreeDee(j))
 					if res > maxObjectiveValue {
 						pairs[[2]int{i, j}] = res
 						maxObjectiveValue = res
@@ -141,6 +176,7 @@ func RandomRestartHillClimbing(cube *MagicCube.MagicCube) (Response, error) {
 				}
 			}
 			fmt.Println(maxObjectiveValue)
+
 			if currentObjectiveValue >= maxObjectiveValue {
 				break
 			}
@@ -159,30 +195,46 @@ func RandomRestartHillClimbing(cube *MagicCube.MagicCube) (Response, error) {
 
 			indexChange = append(indexChange, [][]int{swapOne[:], swapTwo[:]})
 			cube.SwapValues(swapOne, swapTwo)
+			cubeStates = append(cubeStates, cube.Buffer)
+			iteration++
 		}
-		iter++
-		if iter == 10 || maxObjectiveValue == 0 {
+		fmt.Println(restartCount)
+		restartPerIteration = append(restartPerIteration, iteration)
+		restartCount++
+		sz := MagicCube.IntToThreeDee(0)
+		indexChange = append(indexChange, [][]int{sz[:], sz[:]})
+		iteration = 0
+		if restartCount >= numOfRestart || maxObjectiveValue == 0 {
 			break
 		}
-		cube = originalCube.Copy()
-		elapsed := time.Since(start)
-		fmt.Println("time: ", elapsed)
+		cube.Shuffle()
 	}
 	fmt.Println("Objective Function: ", cube.ObjectiveFunction())
 	elapsed := time.Since(start)
+	executionTimeInMS := int(elapsed.Milliseconds())
 	fmt.Println("time: ", elapsed)
-	Result := Response{
-		Buffer:      cube.Buffer,
-		IndexChange: indexChange,
+	Result := MagicCube.Response{
+		Buffer:              cube.Buffer,
+		IndexChange:         indexChange,
+		ObjectiveFunctions:  objectiveFunctions,
+		ExecutionTimeInMS:   executionTimeInMS,
+		CubeStates:          cubeStates,
+		RestartCount:        restartCount,
+		RestartPerIteration: restartPerIteration,
 	}
 	return Result, nil
 }
 
-func StochasticHillClimbing(cube *MagicCube.MagicCube) (Response, error) {
+func StochasticHillClimbing(cube *MagicCube.MagicCube) (MagicCube.Response, error) {
 	start := time.Now()
 	cur := cube.ObjectiveFunction()
 	iter := 100000
 	indexChange := [][][]int{}
+	objectiveFunctions := []int{}
+	currentObjectiveValue := cube.ObjectiveFunction()
+	objectiveFunctions = append(objectiveFunctions, currentObjectiveValue)
+	cubeStates := [][][][]int{}
+	cubeStates = append(cubeStates, cube.Buffer)
 	for i := 0; i < iter; i++ {
 		num1 := rand.Intn(125)
 		var num2 int
@@ -200,7 +252,9 @@ func StochasticHillClimbing(cube *MagicCube.MagicCube) (Response, error) {
 		if res > cur {
 			fmt.Println(res)
 			cur = res
+			objectiveFunctions = append(objectiveFunctions, res)
 			indexChange = append(indexChange, [][]int{swapOne[:], swapTwo[:]})
+			cubeStates = append(cubeStates, cube.Buffer)
 		} else {
 			cube.SwapValues(swapOne, swapTwo)
 		}
@@ -212,10 +266,16 @@ func StochasticHillClimbing(cube *MagicCube.MagicCube) (Response, error) {
 	}
 	fmt.Println("Objective Function: ", cube.ObjectiveFunction())
 	elapsed := time.Since(start)
+
 	fmt.Println("time: ", elapsed)
-	Result := Response{
-		Buffer:      cube.Buffer,
-		IndexChange: indexChange,
+	executionTimeInMS := int(elapsed.Milliseconds())
+	Result := MagicCube.Response{
+		Buffer:             cube.Buffer,
+		IndexChange:        indexChange,
+		ObjectiveFunctions: objectiveFunctions,
+		ExecutionTimeInMS:  executionTimeInMS,
+		CubeStates:         cubeStates,
+		Iterations:         iter,
 	}
 	return Result, nil
 }
