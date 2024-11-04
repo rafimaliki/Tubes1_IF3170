@@ -1,7 +1,6 @@
 import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
 import { Line } from "react-chartjs-2";
-import Result from "@/class/Result";
 import zoomPlugin from "chartjs-plugin-zoom";
 
 Chart.register(CategoryScale, zoomPlugin);
@@ -12,11 +11,12 @@ interface DataPoint {
 }
 
 interface LineChartProps {
-  result: Result | null;
+  values: number[];
+  label: string;
 }
 
-const LineChart = ({ result }: LineChartProps) => {
-  const scores = result?.ObjectiveFunctions;
+const LineChart = ({ values, label }: LineChartProps) => {
+  const scores = values;
   const data: DataPoint[] =
     scores?.map((score, i) => ({
       iteration: i,
@@ -27,7 +27,7 @@ const LineChart = ({ result }: LineChartProps) => {
     labels: data.map((d) => d.iteration.toString()),
     datasets: [
       {
-        label: "Objective Score",
+        label: label,
         data: data.map((d) => d.objScore),
         borderColor: "blue",
         borderWidth: 1,
@@ -83,10 +83,8 @@ const LineChart = ({ result }: LineChartProps) => {
   };
 
   return (
-    <div className="flex items-center justify-center z-40 w-full h-screen">
-      <div className="w-[80%] h-[60%] bg-white shadow-lg p-6 rounded-md flex items-center justify-center">
-        <Line data={chartData} options={options as any} />
-      </div>
+    <div className="w-full h-full bg-white shadow-lg p-6 rounded-md flex items-center justify-center">
+      <Line data={chartData} options={options as any} />
     </div>
   );
 };

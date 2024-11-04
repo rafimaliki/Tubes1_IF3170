@@ -1,9 +1,7 @@
-import React from "react";
 import MagicCube from "@/class/MagicCube";
 import Result from "@/class/Result";
 import SetState from "@/class/Types";
 import axios from "axios";
-import { max } from "three/webgpu";
 import Config from "@/class/Config";
 
 interface ButtonSolveProps {
@@ -62,6 +60,13 @@ const SolveButton = ({
     axios
       .get(`http://localhost:8080/${selectedAlgorithm}/`, { params })
       .then((response) => {
+        //console response size in mb
+        console.log(
+          "Response size:",
+          JSON.stringify(response.data).length / 1024 / 1024,
+          "MB"
+        );
+
         console.log("Response:", response.data);
         setResult(
           new Result({
