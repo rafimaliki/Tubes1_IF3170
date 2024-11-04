@@ -17,6 +17,7 @@ type Response struct {
 	IndexChange        [][][]int
 	ObjectiveFunctions []int
 	ExecutionTimeInMS  int
+	CubeStates         [][][][]int
 
 	//Steepest Ascent, Sideways Move HC, Simulated Annealing
 	Iterations int
@@ -28,6 +29,9 @@ type Response struct {
 	// simulated annealing
 	LocalOptimum int
 	DeltaE       []int
+
+	// genetic algorithm
+	ObjectiveFunctionsMean []int
 }
 
 func New(size ...int) *MagicCube {
@@ -63,7 +67,6 @@ func (mc *MagicCube) Print() {
 }
 
 func (mc *MagicCube) Shuffle() {
-
 	values := make([]int, mc.Size*mc.Size*mc.Size)
 	for i := 0; i < len(values); i++ {
 		values[i] = i + 1
